@@ -1,0 +1,53 @@
+<grammar version="1.0" xml:lang="en-US" root="rootRule"
+ xmlns="http://www.w3.org/2001/06/grammar">
+
+  <rule id="rootRule">
+	 <one-of>
+		<item><ruleref uri="#shellCommands"/></item>
+		<item><ruleref uri="#confirmation"/></item>			
+	 </one-of>
+  </rule>
+	<rule id="shellCommands">
+		 <one-of>
+			<item>go queit</item>
+			<item>go loud</item>
+			<item>shutdown</item>
+			<item>close</item>
+			<item>minimize</item>
+			<item>maximize</item>
+			<item>show chatlog</item>
+			<item>hide chatlog</item>
+			<item>show clock</item>
+			<item>hide clock</item>
+			<item>show all</item>
+			<item>hide all</item>
+			<item>put into sleep mode</item>
+			<item>change theme</item>
+			<item>change theme back</item>
+		 </one-of>
+	 </rule>
+	<rule id="interface">
+			<item><ruleref uri="#action"/></item>
+			<item><ruleref uri="#component"/></item>
+	 </rule>
+	<rule id="action">
+		 <one-of>
+			<item>show</item>
+			<item>hide</item>
+		 </one-of>
+	 </rule>
+	<rule id="component">
+		 <one-of>
+			<item>clock</item>
+			<item>time</item>
+			<item>chat</item>
+			<item>all</item>
+		 </one-of>
+	 </rule>
+	<rule id="confirmation">
+		 <one-of>
+			<item>yes</item>
+			<item>no</item>
+		 </one-of>
+	 </rule>
+</grammar>

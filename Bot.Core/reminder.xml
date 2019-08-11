@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Reminder>
+  <Appointment>
+    <Type>appointment</Type>
+    <Date>15th of February at 11:00</Date>
+  </Appointment>
+  <Appointment>
+    <Type>appointment</Type>
+    <Date>15th of February at 11:00</Date>
+  </Appointment>
+  <Appointment>
+    <Type>birthday</Type>
+    <Date>14th of February at 11:00</Date>
+  </Appointment>
+</Reminder>
