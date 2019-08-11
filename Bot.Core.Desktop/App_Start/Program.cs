@@ -4,9 +4,6 @@ using Bot.Services;
 using Bot.Services.Interfaces;
 using SimpleInjector;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bot.Core.Desktop
@@ -38,6 +35,7 @@ namespace Bot.Core.Desktop
             container.Register<IModuleController, ModuleController>();
             container.Register<IPOSHandler, POSHandler>();
             container.Register<IApplicationService, ApplicationService>();
+            container.Register<IDateTimeService, DateTimeService>();
 
             //container.Verify();
         }

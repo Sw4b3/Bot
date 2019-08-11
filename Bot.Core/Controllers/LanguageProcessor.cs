@@ -10,18 +10,20 @@ namespace Bot.Core
 {
     public class LanguageProcessor : ILanguageProcessor
     {
-        ISpeechController _speechController;
-        IModuleController _moduleController;
-        IApplicationService _applicationService;
+        private ISpeechController _speechController;
+        private IModuleController _moduleController;
+        private IApplicationService _applicationService;
+        private IDateTimeService _dateTimeService;
         ResponseHandler responses = new ResponseHandler();
         string response;
         private bool IS_LISTENING = true;
 
-        public LanguageProcessor(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService)
+        public LanguageProcessor(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService, IDateTimeService dateTimeService)
         {
             _moduleController = moduleController;
             _speechController = speechController;
             _applicationService = applicationService;
+            _dateTimeService = dateTimeService;
         }
 
         public void Check(string utterance)
@@ -59,10 +61,10 @@ namespace Bot.Core
                     response = responses.Pleasantry();
                     break;
                 case "what is time":
-                    response = responses.GetTime() + DateTime.Now.ToString("h:mm tt");
+                    response = responses.GetTime()+ _dateTimeService.GetTime();
                     break;
                 case "what is date":
-                    response = DateTime.Now.ToString("dd MMM", new System.Globalization.CultureInfo("en-US"));
+                    response = _dateTimeService.GetDate();
                     break;
                 case "open file":
                     response = "Opening file";
