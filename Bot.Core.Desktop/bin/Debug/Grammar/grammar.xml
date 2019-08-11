@@ -93,6 +93,7 @@
 			<item>file explorer</item>
 			<item>mediaplayer</item>
 			<item>media</item>
+			<item>steam</item>
 		 </one-of>
 	 </rule>
 	<rule id="countdown">

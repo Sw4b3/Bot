@@ -61,6 +61,10 @@
       <Project>{EF194C78-1C2B-4425-ADF8-E1C9CF6A3634}</Project>
       <Name>Bot.Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bot.Services\Bot.Services.csproj">
+      <Project>{46079f82-a843-4c06-a5ee-2c9a61b8c3b3}</Project>
+      <Name>Bot.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

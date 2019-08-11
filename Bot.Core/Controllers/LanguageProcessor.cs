@@ -1,6 +1,7 @@
 ﻿using Bot.Core.Desktop;
 using Bot.Core.Handlers;
 using Bot.Core.Interfaces;
+using Bot.Services.Interfaces;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -11,15 +12,16 @@ namespace Bot.Core
     {
         ISpeechController _speechController;
         IModuleController _moduleController;
+        IApplicationService _applicationService;
         ResponseHandler responses = new ResponseHandler();
-        Process process;
         string response;
         private bool IS_LISTENING = true;
 
-        public LanguageProcessor(ISpeechController speechController, IModuleController moduleController)
+        public LanguageProcessor(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService)
         {
             _moduleController = moduleController;
             _speechController = speechController;
+            _applicationService = applicationService;
         }
 
         public void Check(string utterance)
@@ -51,17 +53,34 @@ namespace Bot.Core
                 case "hello":
                 case "hey":
                 case "hi":
-                    response = (responses.Greeting());
+                    response = responses.Greeting();
                     break;
                 case "how are you":
-                    response = (responses.Pleasantry());
+                    response = responses.Pleasantry();
                     break;
                 case "what is time":
-                    response = (responses.GetTime() + DateTime.Now.ToString("h:mm tt"));
+                    response = responses.GetTime() + DateTime.Now.ToString("h:mm tt");
                     break;
                 case "what is date":
-                    response = (DateTime.Now.ToString("dd MMM", new System.Globalization.CultureInfo("en-US")));
+                    response = DateTime.Now.ToString("dd MMM", new System.Globalization.CultureInfo("en-US"));
                     break;
+                case "open file":
+                    response = "Opening file";
+                    _applicationService.OpenFileExplorer();
+                    break;
+                case "close file":
+                    response = "Closing file";
+                    _applicationService.CloseFileExplorer();
+                    break;
+                case "open steam":
+                    response = "Opening steam";
+                    _applicationService.OpenSteam();
+                    break;
+                case "close steam":
+                    response = "Closing steam";
+                    _applicationService.CloseSteam();
+                    break;
+                #region Deprecated
                 //case "what is weather":
                 //case "tell weather":
                 //case "get weather":
@@ -71,12 +90,12 @@ namespace Bot.Core
                 //case "get temperature":
                 //    response = "The temperature is " + moduleController.getWeatherHandlerInstance().GetTemp();
                 //    break;
-                case "play audio":
-                    response = ("Playing audio");
-                    break;
-                case "stop audio":
-                    response = ("Stopping Audio");
-                    break;
+                //case "play audio":
+                //    response = "Playing audio";
+                //    break;
+                //case "stop audio":
+                //    response = "Stopping Audio";
+                //    break;
                 //case "start timer":
                 //    response = ("For how long?");
                 //    _recognitionController.loadGrammarTime();
@@ -84,11 +103,7 @@ namespace Bot.Core
                 //case "stop timer":
                 //    _moduleController.StopCoutdown();
                 //    break;
-                case "open file":
-                    response = ("Opening file");
-                    process = Process.Start("explorer.exe", "C:/Users/Andrew/");
-                    process.WaitForExit();
-                    break;
+
                 //case "start mediaplayer":
                 //case "open mediaplayer":
                 //    moduleController.createMediaPlayer();
@@ -139,8 +154,9 @@ namespace Bot.Core
                 //case "fullscreen browser":
                 //    moduleController.getWebBrowserInstance().fullscreen();
                 //    break;
+                #endregion
                 case "search":
-                    response = ("Where do you want to go");
+                    response = "Where do you want to go";
                     //_recognitionController.loadGrammarAlphabetWeb();
                     break;
                 case "add appointment":

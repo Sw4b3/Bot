@@ -1,5 +1,7 @@
 ﻿using Bot.Core.Handlers;
 using Bot.Core.Interfaces;
+using Bot.Services;
+using Bot.Services.Interfaces;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
@@ -35,6 +37,7 @@ namespace Bot.Core.Desktop
             container.Register<ILanguageProcessor, LanguageProcessor>();
             container.Register<IModuleController, ModuleController>();
             container.Register<IPOSHandler, POSHandler>();
+            container.Register<IApplicationService, ApplicationService>();
 
             //container.Verify();
         }
