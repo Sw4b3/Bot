@@ -94,6 +94,8 @@
 			<item>mediaplayer</item>
 			<item>media</item>
 			<item>steam</item>
+      <item>uplay</item>
+      <item>origin</item>
 		 </one-of>
 	 </rule>
 	<rule id="countdown">

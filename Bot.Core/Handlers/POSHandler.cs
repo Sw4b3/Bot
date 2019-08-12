@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bot.Core.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,12 +11,7 @@ namespace Bot.Core.Handlers
 {
     public class POSHandler: IPOSHandler
     {
-        string verb;
-        string noun;
-        string pronoun;
         string question;
-        string[] words;
-        string[] PartsOfSpeech;
         string[] adjectives;
         string[] adverbs;
         string[] conjunctions;
@@ -45,8 +41,8 @@ namespace Bot.Core.Handlers
 
         public string[] POStagging(string utterance)
         {
-            words = utterance.Split(' ');
-            PartsOfSpeech = new string[words.Length];
+            var words = utterance.Split(' ');
+            var partsOfSpeech = new string[words.Length];
 
             for (int i = 0; i < words.Length; i++)
             {
@@ -54,7 +50,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(adjectives[j]))
                     {
-                        PartsOfSpeech[i] = "adjective";
+                        partsOfSpeech[i] = "adjective";
                     }
                 }
 
@@ -62,7 +58,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(adverbs[j]))
                     {
-                        PartsOfSpeech[i] = "adverb";
+                        partsOfSpeech[i] = "adverb";
                     }
                 }
 
@@ -70,7 +66,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(conjunctions[j]))
                     {
-                        PartsOfSpeech[i] = "conjunction";
+                        partsOfSpeech[i] = "conjunction";
                     }
                 }
 
@@ -78,7 +74,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(determiners[j]))
                     {
-                        PartsOfSpeech[i] = "determiner";
+                        partsOfSpeech[i] = "determiner";
                     }
                 }
 
@@ -86,7 +82,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(interjections[j]))
                     {
-                        PartsOfSpeech[i] = "interjection";
+                        partsOfSpeech[i] = "interjection";
                     }
                 }
 
@@ -94,7 +90,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(nouns[j]))
                     {
-                        PartsOfSpeech[i] = "noun";
+                        partsOfSpeech[i] = "noun";
                     }
                 }
 
@@ -102,7 +98,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(pronouns[j]))
                     {
-                        PartsOfSpeech[i] = "pronoun";
+                        partsOfSpeech[i] = "pronoun";
                     }
                 }
 
@@ -110,7 +106,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(prepostions[j]))
                     {
-                        PartsOfSpeech[i] = "prepostion";
+                        partsOfSpeech[i] = "prepostion";
                     }
                 }
 
@@ -118,7 +114,7 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(verbs[j]))
                     {
-                        PartsOfSpeech[i] = "verb";
+                        partsOfSpeech[i] = "verb";
                     }
                 }
 
@@ -126,16 +122,17 @@ namespace Bot.Core.Handlers
                 {
                     if (words[i].Equals(questionWords[j]))
                     {
+                        partsOfSpeech[i] = "question";
                         question = words[i];
                     }
                 }
 
-                if (PartsOfSpeech[i] == null)
+                if (partsOfSpeech[i] == null)
                 {
                     untaggedWord.Add(words[i]);
                 }
             }
-            return PartsOfSpeech;
+            return partsOfSpeech;
         }
 
         public string[] GetConjuctions() {
@@ -146,61 +143,62 @@ namespace Bot.Core.Handlers
         {
             return question;
         }
+        #region Deprecated
+        //public string GetInterjection()
+        //{
+        //    string interjection = null;
 
-        public string GetInterjection()
-        {
-            string interjection = null;
+        //    for (int i = 0; i < PartsOfSpeech.Length; i++)
+        //    {
+        //        if (PartsOfSpeech[i].Equals("interjection"))
+        //        {
+        //            interjection = words[i];
+        //        }
+        //    }
+        //    return interjection;
+        //}
 
-            for (int i = 0; i < PartsOfSpeech.Length; i++)
-            {
-                if (PartsOfSpeech[i].Equals("interjection"))
-                {
-                    interjection = words[i];
-                }
-            }
-            return interjection;
-        }
+        //public string GetNoun()
+        //{
+        //    noun = null;
 
-        public string GetNoun()
-        {
-            noun = null;
+        //    for (int i = 0; i < PartsOfSpeech.Length; i++)
+        //    {
+        //        if (PartsOfSpeech[i].Equals("noun"))
+        //        {
+        //            noun = words[i];
+        //        }
+        //    }
+        //    return noun;
+        //}
 
-            for (int i = 0; i < PartsOfSpeech.Length; i++)
-            {
-                if (PartsOfSpeech[i].Equals("noun"))
-                {
-                    noun = words[i];
-                }
-            }
-            return noun;
-        }
+        //public string GetPronoun()
+        //{
+        //    pronoun = null;
 
-        public string GetPronoun()
-        {
-            pronoun = null;
+        //    for (int i = 0; i < PartsOfSpeech.Length; i++)
+        //    {
+        //        if (PartsOfSpeech[i].Equals("pronoun"))
+        //        {
+        //            pronoun = words[i];
+        //        }
+        //    }
+        //    return noun;
+        //}
 
-            for (int i = 0; i < PartsOfSpeech.Length; i++)
-            {
-                if (PartsOfSpeech[i].Equals("pronoun"))
-                {
-                    pronoun = words[i];
-                }
-            }
-            return noun;
-        }
+        //public string GetVerb()
+        //{
+        //    verb = null;
 
-        public string GetVerb()
-        {
-            verb = null;
-
-            for (int i = 0; i < PartsOfSpeech.Length; i++)
-            {
-                if (PartsOfSpeech[i].Equals("verb"))
-                {
-                    verb = words[i];
-                }
-            }
-            return verb;
-        }
+        //    for (int i = 0; i < PartsOfSpeech.Length; i++)
+        //    {
+        //        if (PartsOfSpeech[i].Equals("verb"))
+        //        {
+        //            verb = words[i];
+        //        }
+        //    }
+        //    return verb;
+        //}
+        #endregion
     }
 }

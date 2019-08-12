@@ -11,5 +11,6 @@ namespace Bot.Services.Interfaces
         void OpenApplication(string application);
         void OpenApplicationWithParamter(string application, string args);
         void CloseApplication(string application);
+        void CloseApplicationWithParamter(string application);
     }
 }

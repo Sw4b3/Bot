@@ -1,5 +1,6 @@
 ﻿using Bot.Core.Handlers;
 using Bot.Core.Interfaces;
+using Bot.Core.Models;
 using System;
 using System.Collections;
 using System.IO;
@@ -23,79 +24,69 @@ namespace Bot.Core
             _posHandler.ReadAllGrammarFiles();
         }
 
-        public void CreateQuery(string utterance)
+        public void CreateQuery(UnitOfSpeech unitOfSpeech)
         {
-            var words = utterance.Split(' ');
             var conjunctions = _posHandler.GetConjuctions();
             mulitquery = false;
 
             for (int i = 0; i < conjunctions.Length; i++)
             {
-                if (utterance.Contains(conjunctions[i]))
+                if (unitOfSpeech.Utterance.Contains(conjunctions[i]))
                 {
-                    var querys = utterance.Split(new string[] { conjunctions[i] }, StringSplitOptions.None);
+                    var querys = unitOfSpeech.Utterance.Split(new string[] { conjunctions[i] }, StringSplitOptions.None);
                     var query1 = querys[0];
-                    var pos = _posHandler.POStagging(query1);
-                    _languageProcessor.Check(UnderstandIntent(pos, words).Trim());
+                    unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(query1);
+                    _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
                     var query2 = querys[1];
-                    pos = _posHandler.POStagging(query2);
-                    _languageProcessor.Check(UnderstandIntent(pos, words).Trim());
+                    unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(query2);
+                    _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
                     mulitquery = true;
                 }
             }
             if (!mulitquery)
             {
-                var pos = _posHandler.POStagging(utterance);
-                _languageProcessor.Check(UnderstandIntent(pos, words).Trim());
+                unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(unitOfSpeech.Utterance);
+                _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
             }
         }
 
-        public string UnderstandIntent(string[] PartsOfSpeech, string[] words)
+        public UnitOfSpeech UnderstandIntent(UnitOfSpeech unitOfWork)
         {
-            string intent = null;
-            string entity = null;
             var question = _posHandler.GetQuestions();
-     
+
             try
             {
-                for (int i = 0; i < PartsOfSpeech.Length; i++)
-                {
-                    intent = intent + PartsOfSpeech[i] + " ";
-                }
-                // MessageBox.Show("Debug: "+intent);
-
-
                 //Action rule
-                for (int i = 0; i < PartsOfSpeech.Length; i++)
+                for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
                 {
-                    for (int j = 0; j < PartsOfSpeech.Length; j++)
+                    for (int j = 0; j < unitOfWork.PartsOfSpeech.Length; j++)
                     {
-                        if (PartsOfSpeech.Length <= 1)
+                        if (unitOfWork.PartsOfSpeech.Length <= 1)
                         {
 
-                            if (PartsOfSpeech[i].Equals("verb"))
+                            if (unitOfWork.PartsOfSpeech[i].Equals("verb"))
                             {
 
-                                intent = words[i];
-                                entity = null;
+                                unitOfWork.Intent = unitOfWork.Words[i];
+                                unitOfWork.Entity = null;
                                 break;
                             }
                         }
 
 
-                        if (PartsOfSpeech[i].Equals("verb") && PartsOfSpeech[j].Equals("noun"))
+                        if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("noun"))
                         {
-                            intent = words[i];
-                            entity = words[j];
+                            unitOfWork.Intent = unitOfWork.Words[i];
+                            unitOfWork.Entity = unitOfWork.Words[j];
                             break;
                         }
 
-                        if (PartsOfSpeech[i].Equals("verb") && PartsOfSpeech[j].Equals("verb"))
+                        if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("verb"))
                         {
                             if (i != j)
                             {
-                                intent = words[j] + " " + words[i];
-                                entity = null;
+                                unitOfWork.Intent = unitOfWork.Words[j] + " " + unitOfWork.Words[i];
+                                unitOfWork.Entity = null;
                                 break;
                             }
                         }
@@ -103,66 +94,66 @@ namespace Bot.Core
                 }
 
                 //noun rule
-                for (int i = 0; i < PartsOfSpeech.Length; i++)
+                for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
                 {
-                    for (int j = 0; j < PartsOfSpeech.Length; j++)
+                    for (int j = 0; j < unitOfWork.PartsOfSpeech.Length; j++)
                     {
-                        if (PartsOfSpeech.Length <= 1)
+                        if (unitOfWork.PartsOfSpeech.Length <= 1)
                         {
-                            if (PartsOfSpeech[j].Equals("noun"))
+                            if (unitOfWork.PartsOfSpeech[j].Equals("noun"))
                             {
-                                intent = words[j];
-                                entity = null;
+                                unitOfWork.Intent = unitOfWork.Words[j];
+                                unitOfWork.Entity = null;
                                 break;
                             }
                         }
 
-                        if (PartsOfSpeech[i].Equals("adjective") && PartsOfSpeech[j].Equals("noun"))
+                        if (unitOfWork.PartsOfSpeech[i].Equals("adjective") && unitOfWork.PartsOfSpeech[j].Equals("noun"))
                         {
-                            intent = words[i];
-                            entity = words[j];
+                            unitOfWork.Intent = unitOfWork.Words[i];
+                            unitOfWork.Entity = unitOfWork.Words[j];
                             break;
                         }
                     }
                 }
 
                 //injection rule
-                for (int i = 0; i < PartsOfSpeech.Length; i++)
+                for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
                 {
-                    for (int j = 0; j < PartsOfSpeech.Length; j++)
+                    for (int j = 0; j < unitOfWork.PartsOfSpeech.Length; j++)
                     {
 
-                        if (PartsOfSpeech[i].Equals("interjection"))
+                        if (unitOfWork.PartsOfSpeech[i].Equals("interjection"))
                         {
-                            intent = words[i];
+                            unitOfWork.Intent = unitOfWork.Words[i];
                             break;
                         }
                     }
                 }
 
                 //question rule
-                for (int k = 0; k < words.Length; k++)
+                for (int k = 0; k < unitOfWork.PartsOfSpeech.Length; k++)
                 {
-                    if (words[k].Equals(question))
+                    if (unitOfWork.PartsOfSpeech[k].Equals("question"))
                     {
 
-                        for (int i = 0; i < PartsOfSpeech.Length; i++)
+                        for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
                         {
-                            for (int j = 0; j < PartsOfSpeech.Length; j++)
+                            for (int j = 0; j < unitOfWork.PartsOfSpeech.Length; j++)
                             {
-                                if (PartsOfSpeech[i].Equals("verb") && PartsOfSpeech[j].Equals("noun"))
+                                if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("noun"))
                                 {
-                                    intent = question + " " + words[i];
-                                    entity = words[j];
-                                    if (!intent.Equals(null) && !entity.Equals(null))
+                                    unitOfWork.Intent = question + " " + unitOfWork.Words[i];
+                                    unitOfWork.Entity = unitOfWork.Words[j];
+                                    if (!unitOfWork.Intent.Equals(null) && !unitOfWork.Entity.Equals(null))
                                     {
                                         break;
                                     }
                                 }
-                                if (PartsOfSpeech[i].Equals("verb") && PartsOfSpeech[j].Equals("pronoun"))
+                                if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("pronoun"))
                                 {
-                                    intent = question + " " + words[i];
-                                    entity = words[j];
+                                    unitOfWork.Intent = question + " " + unitOfWork.Words[i];
+                                    unitOfWork.Entity = unitOfWork.Words[j];
                                 }
                             }
                         }
@@ -174,8 +165,8 @@ namespace Bot.Core
                 throw;
             }
 
-            var query = intent + " " + entity;
-            return query;
+            unitOfWork.Query = unitOfWork.Intent + " " + unitOfWork.Entity;
+            return unitOfWork;
         }
 
         //public void taggUntagged()

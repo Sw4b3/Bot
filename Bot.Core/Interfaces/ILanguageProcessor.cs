@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bot.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Bot.Core.Interfaces
 {
     public interface ILanguageProcessor
     {
-        void Check(string utterance);
+        void Check(UnitOfSpeech utterance);
     }
 }

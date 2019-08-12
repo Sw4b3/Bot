@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bot.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Bot.Core.Interfaces
 {
     public interface INaturalLanguageProcessor
     {
-        void CreateQuery(string utterance);
+        void CreateQuery(UnitOfSpeech utterance);
     }
 }

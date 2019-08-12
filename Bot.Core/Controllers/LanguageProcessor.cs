@@ -1,6 +1,7 @@
 ﻿using Bot.Core.Desktop;
 using Bot.Core.Handlers;
 using Bot.Core.Interfaces;
+using Bot.Core.Models;
 using Bot.Services.Interfaces;
 using System;
 using System.Diagnostics;
@@ -26,9 +27,9 @@ namespace Bot.Core
             _dateTimeService = dateTimeService;
         }
 
-        public void Check(string utterance)
+        public void Check(UnitOfSpeech unitOfSpeech)
         {
-            switch (utterance)
+            switch (unitOfSpeech.Utterance)
             {
                 case "start listening":
                     IS_LISTENING = true;
@@ -43,14 +44,14 @@ namespace Bot.Core
             };
             if (IS_LISTENING)
             {
-                Query(utterance);
+                ProccessQuery(unitOfSpeech);
             }
         }
 
-        public void Query(string intent)
+        public void ProccessQuery(UnitOfSpeech unitOfSpeech)
         {
             response = "";
-            switch (intent)
+            switch (unitOfSpeech.Query)
             {
                 case "hello":
                 case "hey":
@@ -76,11 +77,27 @@ namespace Bot.Core
                     break;
                 case "open steam":
                     response = "Opening steam";
-                    _applicationService.OpenApplication("steam");
+                    _applicationService.OpenApplication(unitOfSpeech.Entity);
                     break;
                 case "close steam":
                     response = "Closing steam";
-                    _applicationService.CloseApplication("steam");
+                    _applicationService.CloseApplication(unitOfSpeech.Entity);
+                    break;
+                case "open origin":
+                    response = "Opening origin";
+                    _applicationService.OpenApplication(unitOfSpeech.Entity);
+                    break;
+                case "close origin":
+                    response = "Closing origin";
+                    _applicationService.CloseApplication(unitOfSpeech.Entity);
+                    break;
+                case "open uplay":
+                    response = "Opening U-play";
+                    _applicationService.OpenApplication(unitOfSpeech.Entity);
+                    break;
+                case "close uplay":
+                    response = "Closing U-play";
+                    _applicationService.CloseApplicationWithParamter(unitOfSpeech.Entity);
                     break;
                 #region Deprecated
                 //case "what is weather":

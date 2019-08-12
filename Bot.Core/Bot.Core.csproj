@@ -54,6 +54,7 @@
     <Compile Include="Interfaces\IRecogntionController.cs" />
     <Compile Include="Interfaces\ISpeechController.cs" />
     <Compile Include="Interfaces\IPOSHandler.cs" />
+    <Compile Include="Models\UnitOfSpeech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

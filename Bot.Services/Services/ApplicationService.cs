@@ -43,5 +43,19 @@ namespace Bot.Services
             {
             }
         }
+
+        public void CloseApplicationWithParamter(string application)
+        {
+            try
+            {
+                var path = ConfigurationManager.AppSettings[application];
+                Process[] proc = Process.GetProcessesByName(path);
+                proc[0].Close();
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Bot.Core.Desktop;
 using Bot.Core.Interfaces;
+using Bot.Core.Models;
 using System;
 using System.Configuration;
 using System.Speech.Recognition;
@@ -9,8 +10,8 @@ namespace Bot.Core
     public class RecogntionController : IRecogntionController
     {
         static SpeechRecognitionEngine engine = new SpeechRecognitionEngine();
-        INaturalLanguageProcessor _naturalLanguageProcessor ;
-        ISpeechController _speechController ;
+        INaturalLanguageProcessor _naturalLanguageProcessor;
+        ISpeechController _speechController;
         IModuleController _moduleController;
         Grammar shellCommads;
         Grammar grammar;
@@ -34,7 +35,8 @@ namespace Bot.Core
             StartUp();
         }
 
-        private void ReadGrammarFiles() {
+        private void ReadGrammarFiles()
+        {
             shellCommads = new Grammar(ConfigurationManager.AppSettings["shellCommads"]); ;
             grammar = new Grammar(ConfigurationManager.AppSettings["grammar"]);
             //grammartime = new Grammar(".\\Grammar\\grammarTime.xml");
@@ -53,8 +55,16 @@ namespace Bot.Core
 
         private void engine_speechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
-            var utterance = e.Result.Text;
-            _moduleController.SetUserSpeechLog(utterance);
+            var input = e.Result.Text;
+            var utterance = new UnitOfSpeech()
+            {
+                Utterance = input,
+                Timerstamp = DateTime.Now,
+                Words = input.Split(' '),
+            };
+
+
+            _moduleController.SetUserSpeechLog(utterance.Utterance);
             _naturalLanguageProcessor.CreateQuery(utterance);
         }
 
