@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Bot.Core;
 
-namespace VirtualAssistant
+namespace Bot.Module
 {
     public partial class Chatlog : Form
     {
@@ -18,19 +17,19 @@ namespace VirtualAssistant
 
         private void SetPostion()
         {
-            xpos = (Screen.PrimaryScreen.WorkingArea.Width *0.95) - (this.Width / 2);
-            ypos = (Screen.PrimaryScreen.WorkingArea.Height *0.15) - (this.Height / 2);
+            xpos = (Screen.PrimaryScreen.WorkingArea.Width * 0.95) - (this.Width / 2);
+            ypos = (Screen.PrimaryScreen.WorkingArea.Height * 0.15) - (this.Height / 2);
             this.Location = new Point(Convert.ToInt32(xpos), Convert.ToInt32(ypos));
         }
 
         public void SetAISpeechLog(string text)
         {
-            textBox1.AppendText("AI: "+text + "\n");
+            textBox1.AppendText("AI: " + text + Environment.NewLine);
         }
 
         public void SetUserSpeechLog(string text)
         {
-            textBox1.AppendText("User: " + text + "\n");
+            textBox1.AppendText("User: " + text + Environment.NewLine);
         }
 
     }

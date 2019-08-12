@@ -68,19 +68,19 @@ namespace Bot.Core
                     break;
                 case "open file":
                     response = "Opening file";
-                    _applicationService.OpenFileExplorer();
+                    _applicationService.OpenApplicationWithParamter("explorer", "C:/Users/Andrew/");
                     break;
                 case "close file":
                     response = "Closing file";
-                    _applicationService.CloseFileExplorer();
+                    _applicationService.CloseApplication("explorer");
                     break;
                 case "open steam":
                     response = "Opening steam";
-                    _applicationService.OpenSteam();
+                    _applicationService.OpenApplication("steam");
                     break;
                 case "close steam":
                     response = "Closing steam";
-                    _applicationService.CloseSteam();
+                    _applicationService.CloseApplication("steam");
                     break;
                 #region Deprecated
                 //case "what is weather":

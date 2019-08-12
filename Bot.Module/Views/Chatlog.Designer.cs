@@ -1,4 +1,4 @@
-﻿namespace VirtualAssistant
+﻿namespace Bot.Module
 {
     partial class Chatlog
     {

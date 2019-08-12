@@ -1,4 +1,4 @@
-﻿using VirtualAssistant;
+﻿using Bot.Module;
 
 namespace Bot.Core.Desktop
 {

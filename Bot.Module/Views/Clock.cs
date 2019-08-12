@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace VirtualAssistant
+namespace Bot.Module
 {
     public partial class Clock : Form
     {

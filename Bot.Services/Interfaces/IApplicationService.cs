@@ -8,9 +8,8 @@ namespace Bot.Services.Interfaces
 {
     public interface IApplicationService
     {
-        void OpenSteam();
-        void CloseSteam();
-        void OpenFileExplorer();
-        void CloseFileExplorer();
+        void OpenApplication(string application);
+        void OpenApplicationWithParamter(string application, string args);
+        void CloseApplication(string application);
     }
 }

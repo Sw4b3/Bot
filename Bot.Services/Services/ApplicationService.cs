@@ -1,27 +1,41 @@
 ﻿using Bot.Services.Interfaces;
 using System;
+using System.Configuration;
 using System.Diagnostics;
 
 namespace Bot.Services
 {
     public class ApplicationService : IApplicationService
     {
-        public void OpenSteam()
+        public void OpenApplication(string application)
         {
             try
             {
-                Process.Start("D:/Steam/Steam.exe");
+                var path = ConfigurationManager.AppSettings[application];
+                Process.Start(path);
             }
             catch (Exception ex)
             {
             }
         }
 
-        public void CloseSteam()
+        public void OpenApplicationWithParamter(string application, string args)
         {
             try
             {
-                Process[] proc = Process.GetProcessesByName("steam");
+                var path = ConfigurationManager.AppSettings[application];
+                Process.Start(path, args);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public void CloseApplication(string application)
+        {
+            try
+            {
+                Process[] proc = Process.GetProcessesByName(application);
                 proc[0].Kill();
 
             }
@@ -29,30 +43,5 @@ namespace Bot.Services
             {
             }
         }
-
-        public void OpenFileExplorer()
-        {
-            try
-            {
-                Process.Start("explorer.exe", "C:/Users/Andrew/");
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        public void CloseFileExplorer()
-        {
-            try
-            {
-                Process[] proc = Process.GetProcessesByName("explorer");
-                proc[0].Kill();
-
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
     }
 }

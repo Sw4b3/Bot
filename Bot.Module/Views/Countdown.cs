@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Media;
 
-namespace VirtualAssistant
+namespace Bot.Module
 {
     public partial class Countdown : Form
     {
@@ -13,7 +13,6 @@ namespace VirtualAssistant
         public Countdown()
         {
             SetPostion();
-            this.Show();
             InitializeComponent();
           
         }
