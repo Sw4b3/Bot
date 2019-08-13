@@ -53,7 +53,7 @@ namespace Bot.Core
         public void ProccessQuery(UnitOfSpeech unitOfSpeech)
         {
             var response = "";
-            switch (unitOfSpeech.Query)
+            switch (unitOfSpeech.Intent)
             {
                 case "hello":
                 case "hey":
@@ -79,27 +79,27 @@ namespace Bot.Core
                     break;
                 case "open steam":
                     response = "Opening steam";
-                    _applicationService.OpenApplication(unitOfSpeech.Entity);
+                    _applicationService.OpenApplication("steam");
                     break;
                 case "close steam":
                     response = "Closing steam";
-                    _applicationService.CloseApplication(unitOfSpeech.Entity);
+                    _applicationService.CloseApplication("steam");
                     break;
                 case "open origin":
                     response = "Opening origin";
-                    _applicationService.OpenApplication(unitOfSpeech.Entity);
+                    _applicationService.OpenApplication("origin");
                     break;
                 case "close origin":
                     response = "Closing origin";
-                    _applicationService.CloseApplication(unitOfSpeech.Entity);
+                    _applicationService.CloseApplication("origin");
                     break;
                 case "open uplay":
                     response = "Opening U-play";
-                    _applicationService.OpenApplication(unitOfSpeech.Entity);
+                    _applicationService.OpenApplication("uplay");
                     break;
                 case "close uplay":
                     response = "Closing U-play";
-                    _applicationService.CloseApplicationWithParamter(unitOfSpeech.Entity);
+                    _applicationService.CloseApplicationWithParamter("uplay");
                     break;
                 #region Deprecated
                 //case "what is weather":
@@ -175,35 +175,36 @@ namespace Bot.Core
                 //case "fullscreen browser":
                 //    moduleController.getWebBrowserInstance().fullscreen();
                 //    break;
-                #endregion
-                case "search ":
-                    //_recognitionController.loadGrammarAlphabetWeb();
-                    break;
-                case "add appointment":
-                case "set appointment":
-                case "add reminder":
-                case "set reminder":
-                    response = ("What is your reminder");
-                    //_recognitionController.loadGrammarReminder();
-                    break;
-                case "have appointments":
-                case "get appointment":
-                //case "get reminder":
-                //    response = ("Getting reminder");
-                //    moduleController.getReminderInstance().getReminder();
+                //case "search ":
+                //    //_recognitionController.loadGrammarAlphabetWeb();
                 //    break;
-                case "spell word":
-                    response = ("Start spellinng you word");
-                    //_recognitionController.loadGrammarAlphabet();
-                    break;
+                //case "add appointment":
+                //case "set appointment":
+                //case "add reminder":
+                //case "set reminder":
+                //    response = ("What is your reminder");
+                //    //_recognitionController.loadGrammarReminder();
+                //    break;
+                //case "have appointments":
+                //case "get appointment":
+                ////case "get reminder":
+                ////    response = ("Getting reminder");
+                ////    moduleController.getReminderInstance().getReminder();
+                ////    break;
+                //case "spell word":
+                //    response = ("Start spellinng you word");
+                //    //_recognitionController.loadGrammarAlphabet();
+                //    break;
                 //case "untagged words":
                 //    _recognitionController.getNLPInstance().taggUntagged();
                 //    break;
+                #endregion
                 default:
-                    if (unitOfSpeech.Query.Contains("search"))
+                    if (unitOfSpeech.Intent.Contains("search"))
                     {
-                        _internetService.SearchInternet(unitOfSpeech.Entity, unitOfSpeech.OptionalEntity);
-                        response = "Searching for " + unitOfSpeech.Entity;
+                       var searchTerm = unitOfSpeech.Intent.Replace("search", "");
+                        _internetService.SearchInternet(searchTerm, unitOfSpeech.Entity);
+                        response = "Searching for " + searchTerm;
                         break;
                     }
                     break;

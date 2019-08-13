@@ -1,4 +1,5 @@
 ﻿using Bot.Core.Desktop;
+using Bot.Core.Handlers;
 using Bot.Core.Interfaces;
 using Bot.Core.Models;
 using System;
@@ -10,9 +11,10 @@ namespace Bot.Core
     public class RecogntionController : IRecogntionController
     {
         static SpeechRecognitionEngine engine = new SpeechRecognitionEngine();
-        INaturalLanguageProcessor _naturalLanguageProcessor;
-        ISpeechController _speechController;
-        IModuleController _moduleController;
+        private readonly INaturalLanguageProcessor _naturalLanguageProcessor;
+        private readonly ISpeechController _speechController;
+        private readonly IModuleController _moduleController;
+        private readonly IPartsOfSpeechHandler _posHandler;
         Grammar shellCommads;
         Grammar grammar;
         Grammar grammartime;
@@ -21,11 +23,13 @@ namespace Bot.Core
         Grammar grammarPOS;
         string word;
 
-        public RecogntionController(INaturalLanguageProcessor naturalLanguageProcessor, ISpeechController speechController, IModuleController moduleController)
+        public RecogntionController(INaturalLanguageProcessor naturalLanguageProcessor, ISpeechController speechController, 
+            IModuleController moduleController, IPartsOfSpeechHandler posHandler)
         {
             _naturalLanguageProcessor = naturalLanguageProcessor;
             _speechController = speechController;
             _moduleController = moduleController;
+            _posHandler = posHandler;
             ReadGrammarFiles();
             // engine.UpdateRecognizerSetting("CFGConfidenceRejectionThreshold", 70);
             engine.LoadGrammarAsync(shellCommads);
@@ -56,16 +60,19 @@ namespace Bot.Core
         private void engine_speechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             var input = e.Result.Text;
-            var utterance = new UnitOfSpeech()
+            var unitOfSpeech = new UnitOfSpeech()
             {
                 Utterance = input,
                 Timerstamp = DateTime.Now,
-                Words = input.Split(' '),
+                PartsOfSpeech = new PartsOfSpeech()
+                {
+                    Words = input.Split(' '),
+                    Descriptor = _posHandler.POStagging(input)
+                },
             };
 
-
-            _moduleController.SetUserChatlog(utterance.Utterance);
-            _naturalLanguageProcessor.CreateQuery(utterance);
+            _moduleController.SetUserChatlog(unitOfSpeech.Utterance);
+            _naturalLanguageProcessor.CreateQuery(unitOfSpeech);
         }
 
         private void _recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)

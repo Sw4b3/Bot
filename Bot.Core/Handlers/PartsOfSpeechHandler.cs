@@ -35,7 +35,7 @@ namespace Bot.Core.Handlers
                     switch (unprocessedPos[i])
                     {
                         case "CC":
-                            proccessedPos[i] = "coordinating conjunction";
+                            proccessedPos[i] = "conjunction";
                             break;
                         case "CD":
                             proccessedPos[i] = "cardinal number ";
@@ -180,21 +180,15 @@ namespace Bot.Core.Handlers
             return proccessedPos;
         }
 
-        public string SearchForConjuction(string utterance)
+        public string SearchForConjuction(PartsOfSpeech unprocessedPos)
         {
             var conjuction = "";
-            var words = utterance.Split(' ');
-            var modelPath = ConfigurationManager.AppSettings["languageModel"];
-            var posTagger = new EnglishMaximumEntropyPosTagger(modelPath);
-            var unprocessedPos = posTagger.Tag(words);
-
-            for (int i = 0; i < unprocessedPos.Length; i++)
+            for (int i = 0; i < unprocessedPos.Descriptor.Length; i++)
             {
-                if (unprocessedPos[i].Equals("CC")) {
-                    conjuction = words[i];
+                if (unprocessedPos.Descriptor[i].Equals("conjunction")) {
+                    conjuction = unprocessedPos.Words[i];
                 }
             }
-
             return conjuction;
         }
     }

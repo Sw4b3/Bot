@@ -22,66 +22,60 @@ namespace Bot.Core
 
         public void CreateQuery(UnitOfSpeech unitOfSpeech)
         {
-            var conjunction = _posHandler.SearchForConjuction(unitOfSpeech.Utterance);
+            var conjunction = _posHandler.SearchForConjuction(unitOfSpeech.PartsOfSpeech);
             if (conjunction != "" && unitOfSpeech.Utterance.Contains(conjunction))
             {
                 var querys = unitOfSpeech.Utterance.Split(new string[] { conjunction }, StringSplitOptions.None);
-                var query1 = querys[0].Trim();
-                unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(query1);
+                unitOfSpeech.Query = querys[0].Trim();
                 _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
-                var query2 = querys[1].Trim();
-                unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(query2);
+                unitOfSpeech.Query = querys[1].Trim();
                 _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
             }
             else
             {
-                unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(unitOfSpeech.Utterance);
                 _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
             }
         }
 
         public UnitOfSpeech UnderstandIntent(UnitOfSpeech unitOfWork)
         {
+            var workCount = unitOfWork.PartsOfSpeech.Descriptor.Length;
             try
             {
                 //Action rule
-                for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
+                for (int i = 0; i < workCount; i++)
                 {
-                    for (int j = 0; j < unitOfWork.PartsOfSpeech.Length; j++)
+                    for (int j = 0; j < workCount; j++)
                     {
-                        if (unitOfWork.PartsOfSpeech.Length <= 1)
+                        if (workCount <= 1)
                         {
 
-                            if (unitOfWork.PartsOfSpeech[i].Equals("verb"))
+                            if (unitOfWork.PartsOfSpeech.Descriptor[i].Equals("verb"))
                             {
-
-                                unitOfWork.Intent = unitOfWork.Words[i];
-                                unitOfWork.Entity = null;
+                                unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[i];
                                 break;
                             }
                         }
 
-                        if (unitOfWork.PartsOfSpeech.Length>=4 && unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("noun")
-                            && unitOfWork.PartsOfSpeech[j+2].Equals("noun"))
+                        if (workCount >= 4 && unitOfWork.PartsOfSpeech.Descriptor[i].Equals("verb") && unitOfWork.PartsOfSpeech.Descriptor[j].Equals("noun")
+                            && (j <= workCount - 2 && unitOfWork.PartsOfSpeech.Descriptor[j + 2].Equals("noun")))
                         {
-                            unitOfWork.Intent = unitOfWork.Words[i];
-                            unitOfWork.Entity = unitOfWork.Words[j];
-                            unitOfWork.OptionalEntity = unitOfWork.Words[j+2];
+                            unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[i] + " " + unitOfWork.PartsOfSpeech.Words[j];
+                            unitOfWork.Entity = unitOfWork.PartsOfSpeech.Words[j + 2];
                             break;
+
                         }
-                        else if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("noun"))
+                        else if (unitOfWork.PartsOfSpeech.Descriptor[i].Equals("verb") && unitOfWork.PartsOfSpeech.Descriptor[j].Equals("noun"))
                         {
-                            unitOfWork.Intent = unitOfWork.Words[i];
-                            unitOfWork.Entity = unitOfWork.Words[j];
+                            unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[i] + " " + unitOfWork.PartsOfSpeech.Words[j];
                             break;
                         }
 
-                        if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("verb"))
+                        if (unitOfWork.PartsOfSpeech.Descriptor[i].Equals("verb") && unitOfWork.PartsOfSpeech.Descriptor[j].Equals("verb"))
                         {
                             if (i != j)
                             {
-                                unitOfWork.Intent = unitOfWork.Words[j] + " " + unitOfWork.Words[i];
-                                unitOfWork.Entity = null;
+                                unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[j] + " " + unitOfWork.PartsOfSpeech.Words[i];
                                 break;
                             }
                         }
@@ -89,122 +83,75 @@ namespace Bot.Core
                 }
 
                 //noun rule
-                for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
+                for (int i = 0; i < workCount; i++)
                 {
-                    for (int j = 0; j < unitOfWork.PartsOfSpeech.Length; j++)
+                    for (int j = 0; j < workCount; j++)
                     {
-                        if (unitOfWork.PartsOfSpeech.Length <= 1)
+                        if (workCount <= 1)
                         {
-                            if (unitOfWork.PartsOfSpeech[j].Contains("noun"))
+                            if (unitOfWork.PartsOfSpeech.Descriptor[j].Contains("noun"))
                             {
-                                unitOfWork.Intent = unitOfWork.Words[j];
-                                unitOfWork.Entity = null;
+                                unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[j];
                                 break;
                             }
                         }
 
-                        if (unitOfWork.PartsOfSpeech[i].Equals("adjective") && unitOfWork.PartsOfSpeech[j].Contains("noun"))
+                        if (unitOfWork.PartsOfSpeech.Descriptor[i].Equals("adjective") && unitOfWork.PartsOfSpeech.Descriptor[j].Contains("noun"))
                         {
-                            unitOfWork.Intent = unitOfWork.Words[i];
-                            unitOfWork.Entity = unitOfWork.Words[j];
+                            unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[i] + " " + unitOfWork.PartsOfSpeech.Words[j];
                             break;
                         }
                     }
                 }
 
                 //injection rule
-                for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
+                for (int i = 0; i < workCount; i++)
                 {
-                    for (int j = 0; j < unitOfWork.PartsOfSpeech.Length; j++)
+                    for (int j = 0; j < workCount; j++)
                     {
 
-                        if (unitOfWork.PartsOfSpeech[i].Equals("interjection"))
+                        if (unitOfWork.PartsOfSpeech.Descriptor[i].Equals("interjection"))
                         {
-                            unitOfWork.Intent = unitOfWork.Words[i];
+                            unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[i];
                             break;
                         }
                     }
                 }
 
                 //question rule
-                for (int k = 0; k < unitOfWork.PartsOfSpeech.Length; k++)
+                for (int k = 0; k < workCount; k++)
                 {
-                    if (unitOfWork.PartsOfSpeech[k].Equals("wh-determiner") || unitOfWork.PartsOfSpeech[k].Equals("wh-pronoun")
-                        || unitOfWork.PartsOfSpeech[k].Equals("wh-pronoun") || unitOfWork.PartsOfSpeech[k].Equals("wh-adverb"))
+                    if (unitOfWork.PartsOfSpeech.Descriptor[k].Equals("wh-determiner") || unitOfWork.PartsOfSpeech.Descriptor[k].Equals("wh-pronoun")
+                        || unitOfWork.PartsOfSpeech.Descriptor[k].Equals("wh-pronoun") || unitOfWork.PartsOfSpeech.Descriptor[k].Equals("wh-adverb"))
                     {
 
-                        for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
+                        for (int i = 0; i < workCount; i++)
                         {
-                            for (int j = 0; j < unitOfWork.PartsOfSpeech.Length; j++)
+                            for (int j = 0; j < workCount; j++)
                             {
-                                if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("noun"))
+                                if (unitOfWork.PartsOfSpeech.Descriptor[i].Equals("verb") && unitOfWork.PartsOfSpeech.Descriptor[j].Equals("noun"))
                                 {
-                                    unitOfWork.Intent = unitOfWork.Words[k] + " " + unitOfWork.Words[i];
-                                    unitOfWork.Entity = unitOfWork.Words[j];
-                                    if (!unitOfWork.Intent.Equals(null) && !unitOfWork.Entity.Equals(null))
+                                    unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[k] + " " + unitOfWork.PartsOfSpeech.Words[i] + " " + unitOfWork.PartsOfSpeech.Words[j];
+                                    if (!unitOfWork.Intent.Equals(null))
                                     {
                                         break;
                                     }
                                 }
-                                if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("pronoun"))
+                                if (unitOfWork.PartsOfSpeech.Descriptor[i].Equals("verb") && unitOfWork.PartsOfSpeech.Descriptor[j].Equals("pronoun"))
                                 {
-                                    unitOfWork.Intent = unitOfWork.Words[k] + " " + unitOfWork.Words[i];
-                                    unitOfWork.Entity = unitOfWork.Words[j];
+                                    unitOfWork.Intent = unitOfWork.PartsOfSpeech.Words[k] + " " + unitOfWork.PartsOfSpeech.Words[i] + " " + unitOfWork.PartsOfSpeech.Words[j];
                                 }
                             }
                         }
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
-
-            unitOfWork.Query = unitOfWork.Entity != null ? unitOfWork.Intent + " " + unitOfWork.Entity : unitOfWork.Intent;
             return unitOfWork;
         }
-
-        //public void taggUntagged()
-        //{
-        //    if (!untaggedWord.Count.Equals(0))
-        //    {
-        //        _speechController.Speak("There are " + untaggedWord.Count + " untagged words");
-        //        _speechController.Speak("What part of speech is " + untaggedWord[index]);
-        //        _recogntionController.loadGrammarPOS();
-        //        _recogntionController.getInstance().SpeechRecognized += (object sender, SpeechRecognizedEventArgs e) =>
-        //         {
-        //             string utterance = e.Result.Text;
-        //             switch (utterance)
-        //             {
-        //                 case "adjective":
-        //                 case "adverb":
-        //                 case "conjunction":
-        //                 case "determiner":
-        //                 case "injection":
-        //                 case "noun":
-        //                 case "number":
-        //                 case "prepostion":
-        //                 case "pronoun":
-        //                 case "verb":
-        //                     POS = utterance;
-        //                     _speechController.Speak(untaggedWord[index] + " is a " + POS);
-        //                     using (StreamWriter sw = File.AppendText(".\\Grammar\\Parts of Speech\\" + POS + "s.txt"))
-        //                     {
-        //                         sw.WriteLine(untaggedWord[index] + "\n");
-        //                     }
-        //                     POS = "";
-        //                     untaggedWord.RemoveAt(0);
-        //                     _recogntionController.loadGrammarPOS();
-        //                     break;
-        //             }
-        //         };
-        //    }
-        //    else
-        //    {
-        //        _speechController.Speak("There are no untagged words");
-        //    }
-        //}
 
         private void VoicePOSDebug(string[] PartsOfSpeech, string[] words)
         {

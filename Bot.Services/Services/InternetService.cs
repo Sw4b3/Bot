@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Bot.Services
 {
-    public class InternetService: IInternetService
+    public class InternetService : IInternetService
     {
         public void SearchInternet(string searchTerm, string optionParameter)
         {
             try
             {
-                var appliction= optionParameter != null ? optionParameter + "Search" : "googleSearch";
+                var appliction = optionParameter != null ? optionParameter + "Search" : "googleSearch";
                 var path = ConfigurationManager.AppSettings[appliction];
-                Process.Start(path+searchTerm);
+                Process.Start(path + searchTerm);
             }
             catch (Exception ex)
             {
