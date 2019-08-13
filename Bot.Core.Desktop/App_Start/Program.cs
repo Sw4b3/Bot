@@ -33,7 +33,7 @@ namespace Bot.Core.Desktop
             container.Register<IRecogntionController, RecogntionController>();
             container.Register<ILanguageProcessor, LanguageProcessor>();
             container.Register<IModuleController, ModuleController>();
-            container.Register<IPOSHandler, POSHandler>();
+            container.Register<IPartsOfSpeechHandler, PartsOfSpeechHandler>();
             container.Register<IApplicationService, ApplicationService>();
             container.Register<IDateTimeService, DateTimeService>();
 

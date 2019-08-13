@@ -10,40 +10,30 @@ namespace Bot.Core
 {
     public class NaturalLanguageProcessor : INaturalLanguageProcessor
     {
-        ISpeechController _speechController;
-        ILanguageProcessor _languageProcessor;
-        IPOSHandler _posHandler;
-        private bool mulitquery;
-
-
-        public NaturalLanguageProcessor(ISpeechController speechController, ILanguageProcessor languageProcessor, IPOSHandler posHandler)
+        private ISpeechController _speechController;
+        private ILanguageProcessor _languageProcessor;
+        private IPartsOfSpeechHandler _posHandler;
+        public NaturalLanguageProcessor(ISpeechController speechController, ILanguageProcessor languageProcessor, IPartsOfSpeechHandler posHandler)
         {
             _speechController = speechController;
             _languageProcessor = languageProcessor;
             _posHandler = posHandler;
-            _posHandler.ReadAllGrammarFiles();
         }
 
         public void CreateQuery(UnitOfSpeech unitOfSpeech)
         {
-            var conjunctions = _posHandler.GetConjuctions();
-            mulitquery = false;
-
-            for (int i = 0; i < conjunctions.Length; i++)
-            {
-                if (unitOfSpeech.Utterance.Contains(conjunctions[i]))
+            var conjunction = _posHandler.SearchForConjuction(unitOfSpeech.Utterance);
+                if (conjunction!="" && unitOfSpeech.Utterance.Contains(conjunction))
                 {
-                    var querys = unitOfSpeech.Utterance.Split(new string[] { conjunctions[i] }, StringSplitOptions.None);
-                    var query1 = querys[0];
+                    var querys = unitOfSpeech.Utterance.Split(new string[] { conjunction }, StringSplitOptions.None);
+                    var query1 = querys[0].Trim();
                     unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(query1);
                     _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
-                    var query2 = querys[1];
+                    var query2 = querys[1].Trim();
                     unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(query2);
                     _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
-                    mulitquery = true;
-                }
             }
-            if (!mulitquery)
+           else
             {
                 unitOfSpeech.PartsOfSpeech = _posHandler.POStagging(unitOfSpeech.Utterance);
                 _languageProcessor.Check(UnderstandIntent(unitOfSpeech));
@@ -52,8 +42,6 @@ namespace Bot.Core
 
         public UnitOfSpeech UnderstandIntent(UnitOfSpeech unitOfWork)
         {
-            var question = _posHandler.GetQuestions();
-
             try
             {
                 //Action rule
@@ -100,7 +88,7 @@ namespace Bot.Core
                     {
                         if (unitOfWork.PartsOfSpeech.Length <= 1)
                         {
-                            if (unitOfWork.PartsOfSpeech[j].Equals("noun"))
+                            if (unitOfWork.PartsOfSpeech[j].Contains("noun"))
                             {
                                 unitOfWork.Intent = unitOfWork.Words[j];
                                 unitOfWork.Entity = null;
@@ -108,7 +96,7 @@ namespace Bot.Core
                             }
                         }
 
-                        if (unitOfWork.PartsOfSpeech[i].Equals("adjective") && unitOfWork.PartsOfSpeech[j].Equals("noun"))
+                        if (unitOfWork.PartsOfSpeech[i].Equals("adjective") && unitOfWork.PartsOfSpeech[j].Contains("noun"))
                         {
                             unitOfWork.Intent = unitOfWork.Words[i];
                             unitOfWork.Entity = unitOfWork.Words[j];
@@ -134,7 +122,8 @@ namespace Bot.Core
                 //question rule
                 for (int k = 0; k < unitOfWork.PartsOfSpeech.Length; k++)
                 {
-                    if (unitOfWork.PartsOfSpeech[k].Equals("question"))
+                    if (unitOfWork.PartsOfSpeech[k].Equals("wh-determiner")|| unitOfWork.PartsOfSpeech[k].Equals("wh-pronoun")
+                        || unitOfWork.PartsOfSpeech[k].Equals("wh-pronoun") || unitOfWork.PartsOfSpeech[k].Equals("wh-adverb"))
                     {
 
                         for (int i = 0; i < unitOfWork.PartsOfSpeech.Length; i++)
@@ -143,7 +132,7 @@ namespace Bot.Core
                             {
                                 if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("noun"))
                                 {
-                                    unitOfWork.Intent = question + " " + unitOfWork.Words[i];
+                                    unitOfWork.Intent = unitOfWork.Words[k] + " " + unitOfWork.Words[i];
                                     unitOfWork.Entity = unitOfWork.Words[j];
                                     if (!unitOfWork.Intent.Equals(null) && !unitOfWork.Entity.Equals(null))
                                     {
@@ -152,7 +141,7 @@ namespace Bot.Core
                                 }
                                 if (unitOfWork.PartsOfSpeech[i].Equals("verb") && unitOfWork.PartsOfSpeech[j].Equals("pronoun"))
                                 {
-                                    unitOfWork.Intent = question + " " + unitOfWork.Words[i];
+                                    unitOfWork.Intent = unitOfWork.Words[k] + " " + unitOfWork.Words[i];
                                     unitOfWork.Entity = unitOfWork.Words[j];
                                 }
                             }
@@ -165,7 +154,7 @@ namespace Bot.Core
                 throw;
             }
 
-            unitOfWork.Query = unitOfWork.Intent + " " + unitOfWork.Entity;
+            unitOfWork.Query = unitOfWork.Entity!=null ? unitOfWork.Intent + " " + unitOfWork.Entity: unitOfWork.Intent;
             return unitOfWork;
         }
 

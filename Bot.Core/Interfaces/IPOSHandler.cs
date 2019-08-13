@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace Bot.Core.Handlers
 {
-    public interface IPOSHandler
+    public interface IPartsOfSpeechHandler
     {
-        void ReadAllGrammarFiles();
         string[] POStagging(string utterance);
-        string[] GetConjuctions();
-        string GetQuestions();
+        string SearchForConjuction(string utterance);
     }
 }

@@ -95,9 +95,9 @@
       <Project>{11ce455b-20f9-4fb6-a33d-eae900bd5468}</Project>
       <Name>Bot.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bot.Module\Bot.Module.csproj">
+    <ProjectReference Include="..\Bot.Module\Bot.Modules.csproj">
       <Project>{ef194c78-1c2b-4425-adf8-e1c9cf6a3634}</Project>
-      <Name>Bot.Module</Name>
+      <Name>Bot.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bot.Services\Bot.Services.csproj">
       <Project>{46079F82-A843-4C06-A5EE-2C9A61B8C3B3}</Project>

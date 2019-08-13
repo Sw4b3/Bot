@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenNLP, Version=1.0.6211.31491, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenNLP.1.3.4\lib\net45\OpenNLP.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpEntropy, Version=1.0.6211.31255, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenNLP.1.3.4\lib\net45\SharpEntropy.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -48,7 +54,7 @@
     <Compile Include="Controllers\RecogntionController.cs" />
     <Compile Include="Handlers\ResponseHandler.cs" />
     <Compile Include="Controllers\SpeechController.cs" />
-    <Compile Include="Handlers\POSHandler.cs" />
+    <Compile Include="Handlers\PartsOfSpeechHandler.cs" />
     <Compile Include="Interfaces\ILanguageProcessor.cs" />
     <Compile Include="Interfaces\INaturalLanguageProcessor.cs" />
     <Compile Include="Interfaces\IRecogntionController.cs" />
@@ -58,14 +64,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bot.Module\Bot.Module.csproj">
+    <ProjectReference Include="..\Bot.Module\Bot.Modules.csproj">
       <Project>{EF194C78-1C2B-4425-ADF8-E1C9CF6A3634}</Project>
-      <Name>Bot.Module</Name>
+      <Name>Bot.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bot.Services\Bot.Services.csproj">
       <Project>{46079f82-a843-4c06-a5ee-2c9a61b8c3b3}</Project>
       <Name>Bot.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

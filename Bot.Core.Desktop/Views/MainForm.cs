@@ -106,9 +106,13 @@ namespace Bot.Core.Desktop
                                 _speechController.Speak("Putting Computer into Sleep mode");
                                 //     Application.SetSuspendState(PowerState.Suspend, true, true
                                 break;
+                            default:
+                                _speechController.Speak("There is no context to that");
+                                break;
                         }
                         break;
                     case "no":
+                        _speechController.Speak("Understood");
                         break;
 
                 };

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot.Core", "Bot.Core\Bot.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot.Core.Desktop", "Bot.Core.Desktop\Bot.Core.Desktop.csproj", "{0F16E78F-5E75-450F-BBE2-5D1411721CC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot.Module", "Bot.Module\Bot.Module.csproj", "{EF194C78-1C2B-4425-ADF8-E1C9CF6A3634}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot.Modules", "Bot.Module\Bot.Modules.csproj", "{EF194C78-1C2B-4425-ADF8-E1C9CF6A3634}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot.Services", "Bot.Services\Bot.Services.csproj", "{46079F82-A843-4C06-A5EE-2C9A61B8C3B3}"
 EndProject
