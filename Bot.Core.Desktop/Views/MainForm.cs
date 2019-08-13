@@ -53,7 +53,7 @@ namespace Bot.Core.Desktop
                 {
                     case "minimize":
                         this.WindowState = FormWindowState.Minimized;
-                        _moduleController.SetAISpeechLog("Minimizing");
+                        _moduleController.SetAIChatlog("Minimizing");
                         _speechController.Speak("Minimizing");
                         _moduleController.HideAll();
                         break;
@@ -61,7 +61,7 @@ namespace Bot.Core.Desktop
                         this.Show();
                         this.WindowState = FormWindowState.Normal;
                         //notifyIcon1.Visible = false;
-                        _moduleController.SetAISpeechLog("Expanding");
+                        _moduleController.SetAIChatlog("Expanding");
                         _speechController.Speak("Expanding");
                         break;
                     case "show chatlog":
@@ -133,7 +133,7 @@ namespace Bot.Core.Desktop
         {
             try
             {
-                pictureBox1.Image = Image.FromFile("C: \\Users\\Andrew\\source\\repos\\VirtualAssiant\\VirtualAssiant\\Resources\\ezgif.com-crop.gif");
+                pictureBox1.Image = Image.FromFile("C:/Users/Andrew/Documents/Projects/Bot/Bot.Core.Desktop/Resources/ezgif.com-crop.gif");
                 pictureBox1.Size = new Size(800, 600);
                 xpos = (Width / 2) - (pictureBox1.Width / 2);
                 ypos = (Height / 2) - (pictureBox1.Height / 2);
@@ -150,7 +150,7 @@ namespace Bot.Core.Desktop
         {
             try
             {
-                pictureBox1.Image = Image.FromFile("C: \\Users\\Andrew\\source\\repos\\VirtualAssiant\\VirtualAssiant\\Resources\\motion.gif");
+                pictureBox1.Image = Image.FromFile("C:/Users/Andrew/Documents/Projects/Bot/Bot.Core.Desktop/Resources/motion.gif");
                 pictureBox1.Size = new Size(415, 327);
                 xpos = (Width / 2) - (pictureBox1.Width / 2);
                 ypos = (Height / 2) - (pictureBox1.Height / 2);

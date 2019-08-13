@@ -64,11 +64,11 @@
     <Compile Include="Views\Countdown.Designer.cs">
       <DependentUpon>Countdown.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\TextUI.cs">
+    <Compile Include="Views\SpeechLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\TextUI.Designer.cs">
-      <DependentUpon>TextUI.cs</DependentUpon>
+    <Compile Include="Views\SpeechLog.Designer.cs">
+      <DependentUpon>SpeechLog.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -81,8 +81,8 @@
     <EmbeddedResource Include="Views\Countdown.resx">
       <DependentUpon>Countdown.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\TextUI.resx">
-      <DependentUpon>TextUI.cs</DependentUpon>
+    <EmbeddedResource Include="Views\SpeechLog.resx">
+      <DependentUpon>SpeechLog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

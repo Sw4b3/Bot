@@ -47,7 +47,7 @@ namespace Bot.Core
 
         public void StartUp()
         {
-            _moduleController.SetAISpeechLog("Intializing...");
+            _moduleController.SetAIChatlog("Intializing...");
             _speechController.Speak("Intializing");
             engine.RecognizeAsync(RecognizeMode.Multiple);
             engine.SpeechRecognized += engine_speechRecognized;
@@ -64,7 +64,7 @@ namespace Bot.Core
             };
 
 
-            _moduleController.SetUserSpeechLog(utterance.Utterance);
+            _moduleController.SetUserChatlog(utterance.Utterance);
             _naturalLanguageProcessor.CreateQuery(utterance);
         }
 

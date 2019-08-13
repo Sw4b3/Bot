@@ -22,12 +22,12 @@ namespace Bot.Module
             this.Location = new Point(Convert.ToInt32(xpos), Convert.ToInt32(ypos));
         }
 
-        public void SetAISpeechLog(string text)
+        public void SetAIChatlog(string text)
         {
             textBox1.AppendText("AI: " + text + Environment.NewLine);
         }
 
-        public void SetUserSpeechLog(string text)
+        public void SetUserChatlog(string text)
         {
             textBox1.AppendText("User: " + text + Environment.NewLine);
         }

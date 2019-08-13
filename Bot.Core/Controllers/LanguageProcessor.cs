@@ -15,16 +15,18 @@ namespace Bot.Core
         private IModuleController _moduleController;
         private IApplicationService _applicationService;
         private IDateTimeService _dateTimeService;
+        private IInternetService _internetService;
         ResponseHandler responses = new ResponseHandler();
-        string response;
         private bool IS_LISTENING = true;
 
-        public LanguageProcessor(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService, IDateTimeService dateTimeService)
+        public LanguageProcessor(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService, IDateTimeService dateTimeService,
+            IInternetService internetService)
         {
             _moduleController = moduleController;
             _speechController = speechController;
             _applicationService = applicationService;
             _dateTimeService = dateTimeService;
+            _internetService = internetService;
         }
 
         public void Check(UnitOfSpeech unitOfSpeech)
@@ -33,12 +35,12 @@ namespace Bot.Core
             {
                 case "start listening":
                     IS_LISTENING = true;
-                    _moduleController.SetAISpeechLog("Starting Mic");
+                    _moduleController.SetAIChatlog("Starting Mic");
                     _speechController.Speak("Starting Mic");
                     break;
                 case "stop listening":
                     IS_LISTENING = false;
-                    _moduleController.SetAISpeechLog("Stopping Mic");
+                    _moduleController.SetAIChatlog("Stopping Mic");
                     _speechController.Speak("Stopping Mic");
                     break;
             };
@@ -50,7 +52,7 @@ namespace Bot.Core
 
         public void ProccessQuery(UnitOfSpeech unitOfSpeech)
         {
-            response = "";
+            var response = "";
             switch (unitOfSpeech.Query)
             {
                 case "hello":
@@ -62,7 +64,7 @@ namespace Bot.Core
                     response = responses.Pleasantry();
                     break;
                 case "what is time":
-                    response = responses.GetTime()+ _dateTimeService.GetTime();
+                    response = responses.GetTime() + _dateTimeService.GetTime();
                     break;
                 case "what is date":
                     response = _dateTimeService.GetDate();
@@ -174,8 +176,7 @@ namespace Bot.Core
                 //    moduleController.getWebBrowserInstance().fullscreen();
                 //    break;
                 #endregion
-                case "search":
-                    response = "Where do you want to go";
+                case "search ":
                     //_recognitionController.loadGrammarAlphabetWeb();
                     break;
                 case "add appointment":
@@ -195,15 +196,23 @@ namespace Bot.Core
                     response = ("Start spellinng you word");
                     //_recognitionController.loadGrammarAlphabet();
                     break;
-                    //case "untagged words":
-                    //    _recognitionController.getNLPInstance().taggUntagged();
-                    //    break;
+                //case "untagged words":
+                //    _recognitionController.getNLPInstance().taggUntagged();
+                //    break;
+                default:
+                    if (unitOfSpeech.Query.Contains("search"))
+                    {
+                        _internetService.SearchInternet(unitOfSpeech.Entity, unitOfSpeech.OptionalEntity);
+                        response = "Searching for " + unitOfSpeech.Entity;
+                        break;
+                    }
+                    break;
             }
             if (response != "")
             {
                 _speechController.Speak(response);
-                //_moduleController.setText(response);
-                _moduleController.SetAISpeechLog(response);
+                _moduleController.SetText(response);
+                _moduleController.SetAIChatlog(response);
             }
         }
     }

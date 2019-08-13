@@ -104,5 +104,18 @@
       <Name>Bot.Services</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\a1057738195_103.jpg" />
+    <Content Include="Resources\a1057738195_1032.jpg" />
+    <Content Include="Resources\ajax-loading-gif-transparent-background-8.gif" />
+    <Content Include="Resources\ezgif.com-crop.gif" />
+    <Content Include="Resources\ezgif.com-gif-maker %281%29.gif" />
+    <Content Include="Resources\ezgif.com-resize.gif" />
+    <Content Include="Resources\ezgif.com-reverse.gif" />
+    <Content Include="Resources\Icon.ico" />
+    <Content Include="Resources\loading.gif" />
+    <Content Include="Resources\motion.gif" />
+    <Content Include="Resources\spheres1_ai_improvisation_by_gleb.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

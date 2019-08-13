@@ -36,6 +36,7 @@ namespace Bot.Core.Desktop
             container.Register<IPartsOfSpeechHandler, PartsOfSpeechHandler>();
             container.Register<IApplicationService, ApplicationService>();
             container.Register<IDateTimeService, DateTimeService>();
+            container.Register<IInternetService, InternetService>();
 
             //container.Verify();
         }

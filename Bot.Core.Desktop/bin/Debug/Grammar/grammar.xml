@@ -67,6 +67,7 @@
 	<rule id="services">
 		 <item><ruleref uri="#action"/></item>
 		<item><ruleref uri="#service"/></item>
+		<item repeat="0-1" repeat-prob="0.5"><ruleref uri="#optional"/></item>
 	  </rule>
 	<rule id="action">
 		<one-of>
@@ -77,6 +78,8 @@
 			<item>stop</item>
 			<item>open</item>
 			<item>close</item>
+			<item>search</item>
+			<item>search for</item>
 			<item>make fullscreen</item>
 			<item>fullscreen</item>
 			<item>exit fullscreen</item>
@@ -94,8 +97,14 @@
 			<item>mediaplayer</item>
 			<item>media</item>
 			<item>steam</item>
-      <item>uplay</item>
-      <item>origin</item>
+      		<item>uplay</item>
+      		<item>origin</item>
+		 </one-of>
+	 </rule>
+	<rule id="optional">
+		 <one-of>
+			<item>in youtube</item>
+			<item>in google</item>
 		 </one-of>
 	 </rule>
 	<rule id="countdown">

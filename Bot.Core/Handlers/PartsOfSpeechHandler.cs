@@ -171,6 +171,10 @@ namespace Bot.Core.Handlers
                     proccessedPos[0] = "verb";
                     proccessedPos[1] = "noun";
                 }
+                if (unproccessedPos.Length >= 3 && unproccessedPos[0].Equals("noun"))
+                {
+                    proccessedPos[0] = "verb";
+                }
 
             }
             return proccessedPos;

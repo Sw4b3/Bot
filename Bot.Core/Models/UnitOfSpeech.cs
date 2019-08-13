@@ -14,6 +14,7 @@ namespace Bot.Core.Models
         public string[] PartsOfSpeech { get; set; }
         public string Intent { get; set; }
         public string Entity { get; set; }
+        public string OptionalEntity { get; set; }
         public string Query { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace Bot.Core.Desktop
     {
         static Chatlog chatlog = new Chatlog();
         static Clock clock = new Clock();
-        static TextUI UI = new TextUI();
+        static SpeechLog speechLog = new SpeechLog();
         static Countdown countdown = new Countdown();
 
         private Chatlog GetChatlogInstance()
@@ -19,9 +19,9 @@ namespace Bot.Core.Desktop
             return clock;
         }
 
-        private TextUI GetUIInstance()
+        private SpeechLog GetUIInstance()
         {
-            return UI;
+            return speechLog;
         }
 
         private Countdown GetCountdownInstance()
@@ -33,6 +33,7 @@ namespace Bot.Core.Desktop
         {
             GetChatlogInstance().Show();
             GetClockInstance().Show();
+            GetUIInstance().Show();
         }
 
         public void ShowChatlog()
@@ -61,14 +62,19 @@ namespace Bot.Core.Desktop
             GetClockInstance().Hide();
         }
 
-        public void SetAISpeechLog(string text)
+        public void SetAIChatlog(string text)
         {
-            GetChatlogInstance().SetAISpeechLog(text);
+            GetChatlogInstance().SetAIChatlog(text);
         }
 
-        public void SetUserSpeechLog(string text)
+        public void SetUserChatlog(string text)
         {
-            GetChatlogInstance().SetUserSpeechLog(text);
+            GetChatlogInstance().SetUserChatlog(text);
+        }
+
+        public void SetText(string text)
+        {
+            GetUIInstance().SetText(text);
         }
 
         public void StopCoutdown()

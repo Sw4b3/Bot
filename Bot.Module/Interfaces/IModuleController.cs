@@ -14,8 +14,9 @@ namespace Bot.Core.Desktop
         void HideAll();
         void HideChatlog();
         void HideClock();
-        void SetAISpeechLog(string text);
-        void SetUserSpeechLog(string text);
+        void SetAIChatlog(string text);
+        void SetUserChatlog(string text);
+        void SetText(string text);
         void StopCoutdown();
     }
 }
