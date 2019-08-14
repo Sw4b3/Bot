@@ -17,10 +17,10 @@ namespace Bot.Core
         private readonly IPartsOfSpeechHandler _posHandler;
         Grammar shellCommads;
         Grammar grammar;
-        Grammar grammartime;
-        Grammar grammarreminder;
+        Grammar grammarTime;
+        Grammar grammarReminder;
         Grammar grammaralphabet;
-        Grammar grammarPOS;
+        Grammar grammarAlphanumeric;
         string word;
 
         public RecogntionController(INaturalLanguageProcessor naturalLanguageProcessor, ISpeechController speechController, 
@@ -34,6 +34,9 @@ namespace Bot.Core
             // engine.UpdateRecognizerSetting("CFGConfidenceRejectionThreshold", 70);
             engine.LoadGrammarAsync(shellCommads);
             engine.LoadGrammarAsync(grammar);
+            //engine.LoadGrammarAsync(grammarAlphanumeric);
+            engine.LoadGrammarAsync(grammarTime);
+            engine.LoadGrammarAsync(grammarReminder);
             engine.SetInputToDefaultAudioDevice();
             // engine.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
             StartUp();
@@ -43,10 +46,9 @@ namespace Bot.Core
         {
             shellCommads = new Grammar(ConfigurationManager.AppSettings["shellCommads"]); ;
             grammar = new Grammar(ConfigurationManager.AppSettings["grammar"]);
-            //grammartime = new Grammar(".\\Grammar\\grammarTime.xml");
-            //grammarreminder = new Grammar(".\\Grammar\\grammarReminder.xml");
-            //grammaralphabet = new Grammar(".\\Grammar\\grammarAlphabet.xml");
-            grammarPOS = new Grammar(ConfigurationManager.AppSettings["grammarPOS"]);
+            grammarAlphanumeric = new Grammar(ConfigurationManager.AppSettings["grammarAlphanumeric"]);
+            grammarTime = new Grammar(".\\Grammar\\grammarTime.xml");
+            grammarReminder = new Grammar(".\\Grammar\\grammarReminder.xml");
         }
 
         public void StartUp()
@@ -67,7 +69,7 @@ namespace Bot.Core
                 PartsOfSpeech = new PartsOfSpeech()
                 {
                     Words = input.Split(' '),
-                    Descriptor = _posHandler.POStagging(input)
+                    Descriptors = _posHandler.POStagging(input)
                 },
             };
 
@@ -196,7 +198,7 @@ namespace Bot.Core
         {
             try
             {
-                engine.LoadGrammarAsync(grammarPOS);
+                engine.LoadGrammarAsync(grammarAlphanumeric);
             }
             catch (Exception)
             {
@@ -207,7 +209,7 @@ namespace Bot.Core
         {
             try
             {
-                engine.UnloadGrammar(grammarPOS);
+                engine.UnloadGrammar(grammarAlphanumeric);
             }
             catch (Exception)
             {
@@ -219,7 +221,7 @@ namespace Bot.Core
             try
             {
                 engine.SpeechRecognized += engine_speechRecognized_setReminder;
-                engine.LoadGrammarAsync(grammarreminder);
+                engine.LoadGrammarAsync(grammarReminder);
             }
             catch (Exception)
             {
@@ -230,7 +232,7 @@ namespace Bot.Core
         {
             try
             {
-                engine.UnloadGrammar(grammarreminder);
+                engine.UnloadGrammar(grammarReminder);
             }
             catch (Exception)
             {
@@ -277,7 +279,7 @@ namespace Bot.Core
             try
             {
                 engine.SpeechRecognized += engine_speechRecognized_startTimer;
-                engine.LoadGrammarAsync(grammartime);
+                engine.LoadGrammarAsync(grammarTime);
             }
             catch (Exception)
             {
@@ -288,7 +290,7 @@ namespace Bot.Core
         {
             try
             {
-                engine.UnloadGrammar(grammartime);
+                engine.UnloadGrammar(grammarTime);
             }
             catch (Exception)
             {

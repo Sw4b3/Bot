@@ -183,9 +183,9 @@ namespace Bot.Core.Handlers
         public string SearchForConjuction(PartsOfSpeech unprocessedPos)
         {
             var conjuction = "";
-            for (int i = 0; i < unprocessedPos.Descriptor.Length; i++)
+            for (int i = 0; i < unprocessedPos.Descriptors.Length; i++)
             {
-                if (unprocessedPos.Descriptor[i].Equals("conjunction")) {
+                if (unprocessedPos.Descriptors[i].Equals("conjunction")) {
                     conjuction = unprocessedPos.Words[i];
                 }
             }

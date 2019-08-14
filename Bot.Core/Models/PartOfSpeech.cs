@@ -9,6 +9,6 @@ namespace Bot.Core.Models
     public class PartsOfSpeech
     {
         public string[] Words { get; set; }
-        public string[] Descriptor { get; set; }
+        public string[] Descriptors { get; set; }
     }
 }

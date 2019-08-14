@@ -9,7 +9,7 @@
   </rule>
 	 <rule id="mutliquery">
  			<item><ruleref uri="#query"/></item>
-			<item><ruleref uri="#conjunction"/></item>
+			<item repeat="0-1" repeat-prob="0.5"><ruleref uri="#conjunction"/></item>
 			<item><ruleref uri="#query"/></item>
 	  </rule>
 
