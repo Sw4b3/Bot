@@ -10,7 +10,7 @@ namespace Bot.Core
 {
     public class RecogntionController : IRecogntionController
     {
-        static SpeechRecognitionEngine engine = new SpeechRecognitionEngine();
+        private static SpeechRecognitionEngine engine = new SpeechRecognitionEngine();
         private readonly INaturalLanguageProcessor _naturalLanguageProcessor;
         private readonly ISpeechController _speechController;
         private readonly IModuleController _moduleController;
@@ -47,8 +47,8 @@ namespace Bot.Core
             shellCommads = new Grammar(ConfigurationManager.AppSettings["shellCommads"]); ;
             grammar = new Grammar(ConfigurationManager.AppSettings["grammar"]);
             grammarAlphanumeric = new Grammar(ConfigurationManager.AppSettings["grammarAlphanumeric"]);
-            grammarTime = new Grammar(".\\Grammar\\grammarTime.xml");
-            grammarReminder = new Grammar(".\\Grammar\\grammarReminder.xml");
+            grammarTime = new Grammar(ConfigurationManager.AppSettings["grammarTime"]);
+            grammarReminder = new Grammar(ConfigurationManager.AppSettings["grammarReminder"]);
         }
 
         public void StartUp()

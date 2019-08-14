@@ -1,0 +1,33 @@
+<grammar version="1.0" xml:lang="en-US" root="rootRule"
+ xmlns="http://www.w3.org/2001/06/grammar">
+
+ 	 <rule id="rootRule">
+		 <item><ruleref uri="#time"/></item>
+		<item><ruleref uri="#unit"/></item>
+	  </rule>
+	<rule id="unit">
+		 <one-of>
+			<item>seconds</item>
+			<item>minutes</item>
+		 </one-of>
+	 </rule>
+	<rule id="time">
+		 <one-of>
+			<item>1</item>
+			<item>2</item>
+			<item>3</item>
+			<item>4</item>
+			<item>5</item>
+			<item>6</item>
+			<item>7</item>
+			<item>8</item>
+			<item>10</item>
+			<item>15</item>
+			<item>20</item>
+			<item>30</item>
+			<item>45</item>
+			<item>50</item>
+			<item>60</item>
+		 </one-of>
+	 </rule>	
+</grammar>

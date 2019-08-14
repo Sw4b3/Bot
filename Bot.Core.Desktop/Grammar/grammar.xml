@@ -1,0 +1,128 @@
+<grammar version="1.0" xml:lang="en-US" root="rootRule"
+ xmlns="http://www.w3.org/2001/06/grammar">
+
+  <rule id="rootRule">
+	 <one-of>
+		<item><ruleref uri="#mutliquery"/></item>
+ 		<item><ruleref uri="#query"/></item>
+	 </one-of>
+  </rule>
+	 <rule id="mutliquery">
+ 			<item><ruleref uri="#query"/></item>
+			<item repeat="0-1" repeat-prob="0.5"><ruleref uri="#conjunction"/></item>
+			<item><ruleref uri="#query"/></item>
+	  </rule>
+
+	 <rule id="query">
+		 <one-of>
+ 			<item><ruleref uri="#greeting"/></item>
+			<item><ruleref uri="#generalSpeech"/></item>
+			<item><ruleref uri="#services"/></item>
+			<item><ruleref uri="#countdown"/></item>
+			<item><ruleref uri="#shellCommands"/></item>
+			<item><ruleref uri="#reminder"/></item>
+	 	</one-of>
+	  </rule>
+		<rule id="conjunction">
+		 <one-of>
+			<item>and</item>
+			<item>then</item>
+		 </one-of>
+	 </rule>
+	<rule id="greeting">
+		 <one-of>
+			<item>hello</item>
+			<item>hey</item>
+			<item>how are you</item>
+		 </one-of>
+	 </rule>
+	<rule id="shellCommands">
+		 <one-of>
+			<item>start listening</item>
+			<item>stop listening</item>
+			<item>repeat</item>
+			<item>search</item>
+		 </one-of>
+	 </rule>
+	<rule id="generalSpeech">
+		 <one-of>
+			<item>what time is it</item>
+			<item>what is the time</item>
+			<item>what is the date</item>             
+			<item>what is todays date</item>
+			<item>what is todays weather</item>     
+			<item>tell me about the weather</item>
+			<item>what is the weather today</item>
+			<item>get weather</item>
+			<item>what is the temperature</item>
+			<item>get the temperature</item>
+			<item>spell word</item>
+			<item>backspace</item>
+			<item>confirm</item>
+			<item>cancel</item>	
+			<item>get  untagged words</item>
+			<item>test</item>			
+		 </one-of>
+	 </rule>
+	<rule id="services">
+		 <item><ruleref uri="#action"/></item>
+		<item><ruleref uri="#service"/></item>
+		<item repeat="0-1" repeat-prob="0.5"><ruleref uri="#optional"/></item>
+	  </rule>
+	<rule id="action">
+		<one-of>
+			<item>start</item>
+			<item>play</item>
+			<item>resume</item>
+			<item>pause</item>
+			<item>stop</item>
+			<item>open</item>
+			<item>close</item>
+			<item>search</item>
+			<item>search for</item>
+			<item>make fullscreen</item>
+			<item>fullscreen</item>
+			<item>exit fullscreen</item>
+			<item>maximize</item>
+			<item>minimize</item>
+		</one-of>
+	</rule>
+	<rule id="service">
+		 <one-of>
+			<item>audio</item>
+			<item>youtube</item>
+			<item>browser</item>
+			<item>web browser</item>
+			<item>file explorer</item>
+			<item>mediaplayer</item>
+			<item>media</item>
+			<item>steam</item>
+      			<item>uplay</item>
+      			<item>origin</item>
+		 </one-of>
+	 </rule>
+	<rule id="optional">
+		 <one-of>
+			<item>in youtube</item>
+			<item>in google</item>
+		 </one-of>
+	 </rule>
+	<rule id="countdown">
+		 <one-of>
+			<item>set timer</item>
+			<item>start timer</item>
+			<item repeat="0-1" repeat-prob="0.2">stop timer</item>
+		 </one-of>
+	 </rule>
+	<rule id="reminder">
+		 <one-of>
+			<item>add reminder</item>
+			<item>add appointment</item>
+			<item>set reminder</item>
+			<item>set appointment</item>
+			<item>get reminder</item>
+			<item>get appointment</item>
+			<item>do i have any appointments</item>
+		 </one-of>
+	 </rule>
+</grammar>
