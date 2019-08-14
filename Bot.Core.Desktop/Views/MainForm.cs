@@ -1,6 +1,7 @@
 ﻿using Bot.Core.Interfaces;
 using System;
 using System.Collections;
+using System.Configuration;
 using System.Drawing;
 using System.Speech.Recognition;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace Bot.Core.Desktop
         ISpeechController _speechController;
         IModuleController _moduleController;
         IRecogntionController _recogntionController;
-        Stack memory = new Stack();
+        Stack lastUtterance = new Stack();
         bool IS_SLEEPING;
         int xpos, ypos;
 
@@ -96,28 +97,30 @@ namespace Bot.Core.Desktop
                         this.SetThemeBack();
                         break;
                     case "yes":
-                        switch (memory.Peek())
+                        if (lastUtterance.Count != 0)
                         {
-                            case "shutdown":
-                                _speechController.Speak("Shutting down");
-                                this.Close();
-                                break;
-                            case "sleep":
-                                _speechController.Speak("Putting Computer into Sleep mode");
-                                //     Application.SetSuspendState(PowerState.Suspend, true, true
-                                break;
-                            default:
-                                _speechController.Speak("There is no context to that");
-                                break;
+                            switch (lastUtterance.Peek())
+                            {
+                                case "shutdown":
+                                    _speechController.Speak("Shutting down");
+                                    this.Close();
+                                    break;
+                                case "sleep":
+                                    _speechController.Speak("Putting Computer into Sleep mode");
+                                    //     Application.SetSuspendState(PowerState.Suspend, true, true
+                                    break;
+                                default:
+                                    _speechController.Speak("There is no context to that");
+                                    break;
+                            }
                         }
                         break;
                     case "no":
                         _speechController.Speak("Understood");
                         break;
-
                 };
             }
-            memory.Push(e.Result.Text);
+            lastUtterance.Push(e.Result.Text);
         }
         public void Fullscreen()
         {
@@ -133,7 +136,8 @@ namespace Bot.Core.Desktop
         {
             try
             {
-                pictureBox1.Image = Image.FromFile("C:/Users/Andrew/Documents/Projects/Bot/Bot.Core.Desktop/Resources/ezgif.com-crop.gif");
+                var path = ConfigurationManager.AppSettings["resourcesFolder"] + "/ezgif.com-crop.gif";
+                pictureBox1.Image = Image.FromFile(path);
                 pictureBox1.Size = new Size(800, 600);
                 xpos = (Width / 2) - (pictureBox1.Width / 2);
                 ypos = (Height / 2) - (pictureBox1.Height / 2);
@@ -150,7 +154,8 @@ namespace Bot.Core.Desktop
         {
             try
             {
-                pictureBox1.Image = Image.FromFile("C:/Users/Andrew/Documents/Projects/Bot/Bot.Core.Desktop/Resources/motion.gif");
+                var path = ConfigurationManager.AppSettings["resourcesFolder"] + "/motion.gif";
+                pictureBox1.Image = Image.FromFile(path);
                 pictureBox1.Size = new Size(415, 327);
                 xpos = (Width / 2) - (pictureBox1.Width / 2);
                 ypos = (Height / 2) - (pictureBox1.Height / 2);

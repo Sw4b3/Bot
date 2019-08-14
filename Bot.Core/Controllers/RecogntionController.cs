@@ -96,9 +96,9 @@ namespace Bot.Core
             {
                 if (utterance.Contains("minutes") || utterance.Contains("seconds"))
                 {
-                    //moduleController.createCountdown();
+                    _moduleController.ShowCountdown();
                     _speechController.Speak("Timer added for " + utterance);
-                    //moduleController.getCountdownInstance().startCountdown(utterance);
+                    _moduleController.StartCountdown(utterance);
                     unloadGrammaTimer();
                     engine.SpeechRecognized -= engine_speechRecognized_startTimer;
                 }

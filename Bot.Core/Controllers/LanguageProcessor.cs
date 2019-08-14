@@ -4,6 +4,7 @@ using Bot.Core.Interfaces;
 using Bot.Core.Models;
 using Bot.Services.Interfaces;
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 
@@ -17,6 +18,7 @@ namespace Bot.Core
         private IDateTimeService _dateTimeService;
         private IInternetService _internetService;
         ResponseHandler responses = new ResponseHandler();
+        Stack lastUtterances = new Stack();
         private bool IS_LISTENING = true;
 
         public LanguageProcessor(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService, IDateTimeService dateTimeService,
@@ -101,6 +103,12 @@ namespace Bot.Core
                     response = "Closing U-play";
                     _applicationService.CloseApplicationWithParamter("uplay");
                     break;
+                case "start timer":
+                    response = "For how long?";
+                    break;
+                case "stop timer":
+                    _moduleController.StopCoutdown();
+                    break;
                 #region Deprecated
                 //case "what is weather":
                 //case "tell weather":
@@ -117,14 +125,6 @@ namespace Bot.Core
                 //case "stop audio":
                 //    response = "Stopping Audio";
                 //    break;
-                //case "start timer":
-                //    response = ("For how long?");
-                //    _recognitionController.loadGrammarTime();
-                //    break;
-                //case "stop timer":
-                //    _moduleController.StopCoutdown();
-                //    break;
-
                 //case "start mediaplayer":
                 //case "open mediaplayer":
                 //    moduleController.createMediaPlayer();
@@ -199,10 +199,21 @@ namespace Bot.Core
                 //    _recognitionController.getNLPInstance().taggUntagged();
                 //    break;
                 #endregion
+                case null:
+                    break;
                 default:
-                    if (unitOfSpeech.Intent.Contains("search"))
+                    if (lastUtterances.Count !=0 && lastUtterances.Peek().ToString().Equals("start timer"))
                     {
-                       var searchTerm = unitOfSpeech.Intent.Replace("search", "");
+                        if (unitOfSpeech.Utterance.Contains("minutes") || unitOfSpeech.Utterance.Contains("seconds"))
+                        {
+                            _moduleController.ShowCountdown();
+                            _speechController.Speak("Timer added for " + unitOfSpeech.Utterance);
+                            _moduleController.StartCountdown(unitOfSpeech.Utterance);
+                        }
+                    }
+                    else if (unitOfSpeech.Intent.Contains("search"))
+                    {
+                        var searchTerm = unitOfSpeech.Intent.Replace("search", "");
                         _internetService.SearchInternet(searchTerm, unitOfSpeech.Entity);
                         response = "Searching for " + searchTerm;
                         break;
@@ -215,6 +226,7 @@ namespace Bot.Core
                 _moduleController.SetText(response);
                 _moduleController.SetAIChatlog(response);
             }
+            lastUtterances.Push(unitOfSpeech.Utterance);
         }
     }
 }

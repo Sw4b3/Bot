@@ -2,84 +2,74 @@
 
 namespace Bot.Core.Desktop
 {
-    public class ModuleController: IModuleController
+    public class ModuleController : IModuleController
     {
-        static Chatlog chatlog = new Chatlog();
-        static Clock clock = new Clock();
-        static SpeechLog speechLog = new SpeechLog();
-        static Countdown countdown = new Countdown();
-
-        private Chatlog GetChatlogInstance()
-        {
-            return chatlog;
-        }
-
-        private Clock GetClockInstance()
-        {
-            return clock;
-        }
-
-        private SpeechLog GetUIInstance()
-        {
-            return speechLog;
-        }
-
-        private Countdown GetCountdownInstance()
-        {
-            return countdown;
-        }
+        private static Chatlog _chatlog = new Chatlog();
+        private static Clock _clock = new Clock();
+        private static SpeechLog _speechLog = new SpeechLog();
+        private static Countdown _countdown = new Countdown();
 
         public void ShowAll()
         {
-            GetChatlogInstance().Show();
-            GetClockInstance().Show();
-            GetUIInstance().Show();
+            _chatlog.Show();
+            _clock.Show();
+            _speechLog.Show();
         }
 
         public void ShowChatlog()
         {
-            GetChatlogInstance().Show();
+            _chatlog.Show();
         }
 
         public void ShowClock()
         {
-            GetClockInstance().Show();
+            _clock.Show();
         }
 
         public void HideAll()
         {
-            GetClockInstance().Hide();
-            GetChatlogInstance().Hide();
+            _clock.Hide();
+            _chatlog.Hide();
         }
 
         public void HideChatlog()
         {
-            GetChatlogInstance().Hide();
+            _chatlog.Hide();
         }
 
         public void HideClock()
         {
-            GetClockInstance().Hide();
+            _clock.Hide();
         }
 
         public void SetAIChatlog(string text)
         {
-            GetChatlogInstance().SetAIChatlog(text);
+            _chatlog.SetAIChatlog(text);
         }
 
         public void SetUserChatlog(string text)
         {
-            GetChatlogInstance().SetUserChatlog(text);
+            _chatlog.SetUserChatlog(text);
         }
 
         public void SetText(string text)
         {
-            GetUIInstance().SetText(text);
+            _speechLog.SetText(text);
         }
 
         public void StopCoutdown()
         {
-            GetCountdownInstance().StopCoutdown();
+            _countdown.StopCoutdown();
+        }
+
+        public void StartCountdown(string utterance)
+        {
+            _countdown.StartCountdown(utterance);
+        }
+
+        public void ShowCountdown()
+        {
+            _countdown.Show();
         }
     }
 }

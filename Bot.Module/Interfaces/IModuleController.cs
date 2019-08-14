@@ -11,12 +11,14 @@ namespace Bot.Core.Desktop
         void ShowAll();
         void ShowChatlog();
         void ShowClock();
+        void ShowCountdown();
         void HideAll();
         void HideChatlog();
         void HideClock();
         void SetAIChatlog(string text);
         void SetUserChatlog(string text);
         void SetText(string text);
+        void StartCountdown(string utterance);
         void StopCoutdown();
     }
 }

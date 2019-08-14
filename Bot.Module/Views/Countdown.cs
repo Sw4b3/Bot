@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Media;
+using System.Configuration;
 
 namespace Bot.Module
 {
@@ -17,7 +18,7 @@ namespace Bot.Module
           
         }
 
-        public void StartCountdown(String utterance)
+        public void StartCountdown(string utterance)
         {
             if (utterance.Contains("minutes"))
             {
@@ -37,7 +38,7 @@ namespace Bot.Module
             try
             {
                 timer.Stop();
-                this.Dispose();
+                this.Hide();
             }
             catch (Exception) {
                 //_speechController.Speak("There is no timer to stop");
@@ -55,8 +56,9 @@ namespace Bot.Module
             else
             {
                 StopCoutdown();
-                //speechController.Speak("Time's up!");
-                new SoundPlayer(".\\pure_bell.wav").Play();
+                //_speechController.Speak("Time's up!");
+                var path = ConfigurationManager.AppSettings["resourcesFolder"] + "/pure_bell.wav";
+                new SoundPlayer(path).Play();
             }
         }
 
