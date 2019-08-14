@@ -103,6 +103,7 @@ namespace Bot.Core
                     response = "Closing U-play";
                     _applicationService.CloseApplicationWithParamter("uplay");
                     break;
+                case "set timer":
                 case "start timer":
                     response = "For how long?";
                     break;
@@ -195,14 +196,12 @@ namespace Bot.Core
                 //    response = ("Start spellinng you word");
                 //    //_recognitionController.loadGrammarAlphabet();
                 //    break;
-                //case "untagged words":
-                //    _recognitionController.getNLPInstance().taggUntagged();
-                //    break;
                 #endregion
                 case null:
                     break;
                 default:
-                    if (lastUtterances.Count !=0 && lastUtterances.Peek().ToString().Equals("start timer"))
+                    if (lastUtterances.Count !=0 && lastUtterances.Peek().ToString().Equals("start timer")
+                        || lastUtterances.Peek().ToString().Equals("set timer"))
                     {
                         if (unitOfSpeech.Utterance.Contains("minutes") || unitOfSpeech.Utterance.Contains("seconds"))
                         {
