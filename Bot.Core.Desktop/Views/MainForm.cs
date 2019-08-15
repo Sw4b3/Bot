@@ -54,7 +54,7 @@ namespace Bot.Core.Desktop
                 {
                     case "minimize":
                         this.WindowState = FormWindowState.Minimized;
-                        _moduleController.SetAIChatlog("Minimizing");
+                        _moduleController.SetBotChatlog("Minimizing");
                         _speechController.Speak("Minimizing");
                         _moduleController.HideAll();
                         break;
@@ -62,7 +62,7 @@ namespace Bot.Core.Desktop
                         this.Show();
                         this.WindowState = FormWindowState.Normal;
                         //notifyIcon1.Visible = false;
-                        _moduleController.SetAIChatlog("Expanding");
+                        _moduleController.SetBotChatlog("Expanding");
                         _speechController.Speak("Expanding");
                         break;
                     case "show chatlog":

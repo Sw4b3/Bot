@@ -42,9 +42,9 @@ namespace Bot.Core.Desktop
             _clock.Hide();
         }
 
-        public void SetAIChatlog(string text)
+        public void SetBotChatlog(string text)
         {
-            _chatlog.SetAIChatlog(text);
+            _chatlog.SetBotChatlog(text);
         }
 
         public void SetUserChatlog(string text)

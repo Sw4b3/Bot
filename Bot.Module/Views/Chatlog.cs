@@ -22,7 +22,7 @@ namespace Bot.Module
             this.Location = new Point(Convert.ToInt32(xpos), Convert.ToInt32(ypos));
         }
 
-        public void SetAIChatlog(string text)
+        public void SetBotChatlog(string text)
         {
             textBox1.AppendText("AI: " + text + Environment.NewLine);
         }

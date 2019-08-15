@@ -52,7 +52,7 @@ namespace Bot.Core
 
         public void StartUp()
         {
-            _moduleController.SetAIChatlog("Intializing...");
+            _moduleController.SetBotChatlog("Intializing...");
             _speechController.Speak("Intializing");
             engine.RecognizeAsync(RecognizeMode.Multiple);
             engine.SpeechRecognized += engine_speechRecognized;

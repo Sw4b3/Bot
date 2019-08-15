@@ -15,7 +15,7 @@ namespace Bot.Core.Desktop
         void HideAll();
         void HideChatlog();
         void HideClock();
-        void SetAIChatlog(string text);
+        void SetBotChatlog(string text);
         void SetUserChatlog(string text);
         void SetText(string text);
         void StartCountdown(string utterance);

@@ -19,7 +19,8 @@ namespace Bot.Core
         private IInternetService _internetService;
         ResponseHandler responses = new ResponseHandler();
         Stack lastUtterances = new Stack();
-  
+        private bool IS_LISTENING = true;
+
         public BotLogicController(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService, IDateTimeService dateTimeService,
             IInternetService internetService)
         {
@@ -35,15 +36,17 @@ namespace Bot.Core
             switch (query.Intent)
             {
                 case "start listening":
-                    _moduleController.SetAIChatlog("Starting Mic");
+                    _moduleController.SetBotChatlog("Starting Mic");
                     _speechController.Speak("Starting Mic");
-                    return true;
+                    IS_LISTENING = true;
+                    break;
                 case "stop listening":
-                    _moduleController.SetAIChatlog("Stopping Mic");
+                    _moduleController.SetBotChatlog("Stopping Mic");
                     _speechController.Speak("Stopping Mic");
-                    return false;
+                    IS_LISTENING = false;
+                    break;
             }
-            return true;
+            return IS_LISTENING;
         }
 
         public void ProccessQuery(Query query)
@@ -219,7 +222,7 @@ namespace Bot.Core
                 {
                     _speechController.Speak(response);
                     _moduleController.SetText(response);
-                    _moduleController.SetAIChatlog(response);
+                    _moduleController.SetBotChatlog(response);
                 }
                 lastUtterances.Push(query.Intent);
             }
