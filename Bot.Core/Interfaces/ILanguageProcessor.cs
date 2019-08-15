@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Bot.Core.Interfaces
 {
-    public interface ILanguageProcessor
+    public interface IBotLogicController
     {
-        void Check(UnitOfSpeech utterance);
+        void ProccessQuery(Query query);
     }
 }

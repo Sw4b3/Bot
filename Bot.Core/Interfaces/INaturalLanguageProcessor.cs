@@ -9,6 +9,6 @@ namespace Bot.Core.Interfaces
 {
     public interface INaturalLanguageProcessor
     {
-        void CreateQuery(UnitOfSpeech utterance);
+        UnitOfSpeech RecognizeIntent(UnitOfSpeech unitOfWork);
     }
 }

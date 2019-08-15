@@ -23,7 +23,7 @@ namespace Bot.Module
         }
 
         public void SetText(string reply) {
-            textBox1.Text=(reply);
+            textBox1.Text=reply;
         }
     }
 }

@@ -49,11 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\LanguageProcessor.cs" />
     <Compile Include="Controllers\NaturalLanguageProcessor.cs" />
-    <Compile Include="Controllers\RecogntionController.cs" />
+    <Compile Include="Models\PartsOfSpeechDictionary.cs" />
     <Compile Include="Handlers\ResponseHandler.cs" />
-    <Compile Include="Controllers\SpeechController.cs" />
     <Compile Include="Handlers\PartsOfSpeechHandler.cs" />
     <Compile Include="Interfaces\ILanguageProcessor.cs" />
     <Compile Include="Interfaces\INaturalLanguageProcessor.cs" />
@@ -61,6 +59,7 @@
     <Compile Include="Interfaces\ISpeechController.cs" />
     <Compile Include="Interfaces\IPartsOfSpeechHandler.cs" />
     <Compile Include="Models\PartOfSpeech.cs" />
+    <Compile Include="Models\Query.cs" />
     <Compile Include="Models\UnitOfSpeech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

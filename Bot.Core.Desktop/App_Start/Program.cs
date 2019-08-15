@@ -31,7 +31,7 @@ namespace Bot.Core.Desktop
             container.Register<ISpeechController, SpeechController>();
             container.Register<INaturalLanguageProcessor, NaturalLanguageProcessor>();
             container.Register<IRecogntionController, RecogntionController>();
-            container.Register<ILanguageProcessor, LanguageProcessor>();
+            container.Register<IBotLogicController, BotLogicController>();
             container.Register<IModuleController, ModuleController>();
             container.Register<IPartsOfSpeechHandler, PartsOfSpeechHandler>();
             container.Register<IApplicationService, ApplicationService>();

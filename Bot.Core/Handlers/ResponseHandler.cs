@@ -14,8 +14,8 @@ namespace Bot.Core.Handlers
 
         public string Greeting()
         {
-            string user = System.Environment.UserName;
-            System.DateTime currentTime = System.DateTime.Now;
+            string user = Environment.UserName;
+            DateTime currentTime = DateTime.Now;
             if (currentTime.Hour >= 5 && currentTime.Hour < 12)
             {
                 reply = random.Next(0, 2);

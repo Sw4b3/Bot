@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\BotLogicController.cs" />
+    <Compile Include="Controller\RecogntionController.cs" />
+    <Compile Include="Controller\SpeechController.cs" />
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

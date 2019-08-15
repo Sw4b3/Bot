@@ -11,8 +11,6 @@ namespace Bot.Core.Models
         public string Utterance { get; set; }
         public DateTime Timerstamp { get; set; }
         public PartsOfSpeech PartsOfSpeech { get; set; }
-        public string Intent { get; set; }
-        public string Entity { get; set; }
-        public string Query { get; set; }
+        public IList<Query> Queries { get; set; }
     }
 }

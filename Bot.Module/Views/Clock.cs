@@ -9,10 +9,10 @@ namespace Bot.Module
         public Clock()
         {
             InitializeComponent();
-            setPostion();
+            SetPostion();
         }
 
-        private void setPostion()
+        private void SetPostion()
         {
             xpos = (Screen.PrimaryScreen.WorkingArea.Width /2) - (this.Width / 2);
             ypos = (Screen.PrimaryScreen.WorkingArea.Height * 0.8) - (this.Height / 2);

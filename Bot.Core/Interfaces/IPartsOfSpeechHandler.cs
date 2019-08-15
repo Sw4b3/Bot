@@ -9,7 +9,7 @@ namespace Bot.Core.Handlers
 {
     public interface IPartsOfSpeechHandler
     {
-        string[] POStagging(string utterance);
+        PartsOfSpeech POStagging(string utterance);
         string SearchForConjuction(PartsOfSpeech utterance);
     }
 }

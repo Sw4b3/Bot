@@ -10,7 +10,6 @@ namespace Bot.Core.Interfaces
     public interface IRecogntionController
     {
         void StartUp();
-        void loadGrammarPOS();
         SpeechRecognitionEngine getInstance();
     }
 }
