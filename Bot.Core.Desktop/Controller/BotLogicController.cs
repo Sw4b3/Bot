@@ -78,30 +78,6 @@ namespace Bot.Core
                         response = "Closing file";
                         _applicationService.CloseApplication("explorer");
                         break;
-                    case "open steam":
-                        response = "Opening steam";
-                        _applicationService.OpenApplication("steam");
-                        break;
-                    case "close steam":
-                        response = "Closing steam";
-                        _applicationService.CloseApplication("steam");
-                        break;
-                    case "open origin":
-                        response = "Opening origin";
-                        _applicationService.OpenApplication("origin");
-                        break;
-                    case "close origin":
-                        response = "Closing origin";
-                        _applicationService.CloseApplication("origin");
-                        break;
-                    case "open uplay":
-                        response = "Opening U-play";
-                        _applicationService.OpenApplication("uplay");
-                        break;
-                    case "close uplay":
-                        response = "Closing U-play";
-                        _applicationService.CloseApplicationWithParamter("uplay");
-                        break;
                     case "set timer":
                     case "start timer":
                         response = "For how long?";
@@ -208,6 +184,18 @@ namespace Bot.Core
                                 _speechController.Speak("Timer added for " + query.Intent);
                                 _moduleController.StartCountdown(query.Intent);
                             }
+                        }
+                        else if (query.Intent.Contains("open"))
+                        {
+                            response = "Opening " + query.Entity;
+                            _applicationService.OpenApplication(query.Entity);
+                            break;
+                        }
+                        else if (query.Intent.Contains("close"))
+                        {
+                            response = "Opening " + query.Entity;
+                            _applicationService.OpenApplication(query.Entity);
+                            break;
                         }
                         else if (query.Intent.Contains("search"))
                         {

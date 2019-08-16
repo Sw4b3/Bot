@@ -92,6 +92,7 @@ namespace Bot.Core
                         else if (unitOfWork.PartsOfSpeech.Descriptors[i].Equals("verb") && unitOfWork.PartsOfSpeech.Descriptors[j].Equals("noun"))
                         {
                             query.Intent = unitOfWork.PartsOfSpeech.Words[i] + " " + unitOfWork.PartsOfSpeech.Words[j];
+                            query.Entity = unitOfWork.PartsOfSpeech.Words[j];
                             break;
                         }
 
