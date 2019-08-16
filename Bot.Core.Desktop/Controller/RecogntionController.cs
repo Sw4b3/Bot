@@ -18,9 +18,6 @@ namespace Bot.Core
         private readonly IBotLogicController _logicController;
         Grammar shellCommads;
         Grammar grammar;
-        Grammar grammarTime;
-        Grammar grammarReminder;
-        Grammar grammarAlphanumeric;
 
         public RecogntionController(INaturalLanguageProcessor naturalLanguageProcessor, ISpeechController speechController,
             IModuleController moduleController, IBotLogicController logicController)
@@ -31,11 +28,9 @@ namespace Bot.Core
             _logicController = logicController;
             ReadGrammarFiles();
             // engine.UpdateRecognizerSetting("CFGConfidenceRejectionThreshold", 70);
+            engine.LoadGrammarCompleted += _LoadGrammarCompleted;
             engine.LoadGrammarAsync(shellCommads);
             engine.LoadGrammarAsync(grammar);
-            //engine.LoadGrammarAsync(grammarAlphanumeric);
-            engine.LoadGrammarAsync(grammarTime);
-            engine.LoadGrammarAsync(grammarReminder);
             engine.SetInputToDefaultAudioDevice();
             // engine.SpeechRecognitionRejected += _recognizer_SpeechRecognitionRejected;
             StartUp();
@@ -43,11 +38,10 @@ namespace Bot.Core
 
         private void ReadGrammarFiles()
         {
-            shellCommads = new Grammar(ConfigurationManager.AppSettings["shellCommads"]); ;
+            shellCommads = new Grammar(ConfigurationManager.AppSettings["shellCommads"]);
+            shellCommads.Name = "shellCommads";
             grammar = new Grammar(ConfigurationManager.AppSettings["grammar"]);
-            grammarAlphanumeric = new Grammar(ConfigurationManager.AppSettings["grammarAlphanumeric"]);
-            grammarTime = new Grammar(ConfigurationManager.AppSettings["grammarTime"]);
-            grammarReminder = new Grammar(ConfigurationManager.AppSettings["grammarReminder"]);
+            grammar.Name = "grammar";
         }
 
         public void StartUp()
@@ -55,10 +49,10 @@ namespace Bot.Core
             _moduleController.SetBotChatlog("Intializing...");
             _speechController.Speak("Intializing");
             engine.RecognizeAsync(RecognizeMode.Multiple);
-            engine.SpeechRecognized += engine_speechRecognized;
+            engine.SpeechRecognized += Engine_speechRecognized;
         }
 
-        private void engine_speechRecognized(object sender, SpeechRecognizedEventArgs e)
+        private void Engine_speechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             var input = e.Result.Text;
             var unitOfSpeech = new UnitOfSpeech()
@@ -81,7 +75,7 @@ namespace Bot.Core
             }
         }
 
-        private void _recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        private void _SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
         {
             if (e.Result.Alternates.Count == 0)
             {
@@ -90,6 +84,15 @@ namespace Bot.Core
             foreach (RecognizedPhrase r in e.Result.Alternates)
             {
                 _speechController.Speak("Speech rejected. Did you mean: " + r.Text);
+            }
+        }
+
+        private void _LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
+        {
+            if (!e.Grammar.Name.Equals("shellCommads"))
+            {
+                _moduleController.SetBotChatlog("Initialization complete...");
+                _speechController.Speak("Initialization complete...");
             }
         }
 

@@ -1,0 +1,35 @@
+﻿<grammar version="1.0" xml:lang="en-US" root="rootRule"
+ xmlns="http://www.w3.org/2001/06/grammar">
+
+  <rule id="rootRule">
+    <one-of>
+      <item><ruleref uri="#applications"/></item>
+      <item><ruleref uri="#services"/></item>
+    </one-of>
+  </rule>
+  
+  <rule id="applications">
+    <one-of>
+      <item>audio</item>
+      <item>youtube</item>
+      <item>browser</item>
+      <item>web browser</item>
+      <item>steam</item>
+      <item>uplay</item>
+      <item>origin</item>
+    </one-of>
+  </rule>
+
+  <rule id="services">
+    <one-of>
+      <item>timer</item>
+      <item>reminder</item>
+      <item>appointment</item>
+      <item>file explorer</item>
+      <item>mediaplayer</item>
+      <item>media</item>
+      <item>weather</item>
+      <item>temperature</item>
+    </one-of>
+  </rule>
+</grammar>

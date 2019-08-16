@@ -202,7 +202,7 @@ namespace Bot.Core
                         if (lastUtterances.Count != 0 && (lastUtterances.Peek().ToString().Equals("start timer")
                             || lastUtterances.Peek().ToString().Equals("set timer")))
                         {
-                            if (query.Intent.Contains("minutes") || query.Intent.Contains("seconds"))
+                            if (query.Intent.Contains("minute") || query.Intent.Contains("second"))
                             {
                                 _moduleController.ShowCountdown();
                                 _speechController.Speak("Timer added for " + query.Intent);

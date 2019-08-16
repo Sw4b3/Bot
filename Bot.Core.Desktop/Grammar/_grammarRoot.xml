@@ -1,0 +1,107 @@
+<grammar version="1.0" xml:lang="en-US" root="rootRule"
+ xmlns="http://www.w3.org/2001/06/grammar">
+  <rule id="rootRule">
+	 <one-of>
+		<item><ruleref uri="#mutliquery"/></item>
+ 		<item><ruleref uri="#query"/></item>
+	 </one-of>
+  </rule>
+	 <rule id="mutliquery">
+ 			<item><ruleref uri="#query"/></item>
+			<item repeat="0-1" repeat-prob="0.5"><ruleref uri="#conjunction"/></item>
+			<item><ruleref uri="#query"/></item>
+	  </rule>
+	 <rule id="query">
+		 <one-of>
+ 			<item><ruleref uri="#greetings"/></item>
+			<item><ruleref uri="#generalSpeech"/></item>
+			<item><ruleref uri="#service"/></item>
+			<item><ruleref uri="#shellCommands"/></item>
+      <item><ruleref uri="grammarReminder.xml" type="application/srgs+xml" /></item>
+      <item><ruleref uri="grammarTime.xml" type="application/srgs+xml" /></item>
+	 	</one-of>
+	  </rule>
+		<rule id="conjunction">
+		 <one-of>
+      <item>but</item>
+      <item>so</item>
+      <item>or</item>
+			<item>and</item>
+			<item>then</item>
+		 </one-of>
+	 </rule>
+	<rule id="greetings">
+		 <one-of>
+			<item>hello</item>
+			<item>hey</item>
+      <item>hi</item>
+			<item>how are you</item>
+		 </one-of>
+	 </rule>
+	<rule id="shellCommands">
+		 <one-of>
+			<item>start listening</item>
+			<item>stop listening</item>
+			<item>repeat</item>
+		 </one-of>
+	 </rule>
+	<rule id="generalSpeech">
+		 <one-of>
+			<item>what time is it</item>
+			<item>what is the time</item>
+			<item>what is the date</item>             
+			<item>what is todays date</item>
+			<item>what is todays weather</item>     
+			<item>tell me about the weather</item>
+			<item>what is the weather today</item>
+			<item>what is the temperature</item>
+			<item>get the temperature</item>
+			<item>spell word</item>
+			<item>backspace</item>
+			<item>confirm</item>
+			<item>cancel</item>	
+		 </one-of>
+	 </rule>
+	<rule id="service">
+    <item repeat="0-1" repeat-prob="0.5"><ruleref uri="#optionalPrefix"/></item>
+		<item><ruleref uri="#action"/></item>
+		<item><ruleref uri="grammarEntities.xml" type="application/srgs+xml" /></item>
+		<item repeat="0-1" repeat-prob="0.5"><ruleref uri="#optionalSuffix"/></item>
+	  </rule>
+	<rule id="action">
+		<one-of>
+      <item>get</item>
+      <item>get the</item>
+      <item>add</item>
+      <item>set</item>
+			<item>start</item>
+			<item>play</item>
+			<item>resume</item>
+			<item>pause</item>
+			<item>stop</item>
+			<item>open</item>
+			<item>close</item>
+			<item>search</item>
+			<item>search for</item>
+			<item>make fullscreen</item>
+			<item>fullscreen</item>
+			<item>exit fullscreen</item>
+			<item>maximize</item>
+			<item>minimize</item>
+		</one-of>
+	</rule>
+  <rule id="optionalPrefix">
+    <one-of>
+      <item>can you</item>
+      <item>can you please</item>
+      <item>please</item>
+      <item>please can you</item>
+    </one-of>
+  </rule>
+	<rule id="optionalSuffix">
+		 <one-of>
+			<item>in youtube</item>
+			<item>in google</item>
+		 </one-of>
+	 </rule>
+</grammar>

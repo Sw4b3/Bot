@@ -110,8 +110,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Grammar\grammar.xml" />
+    <Content Include="Grammar\_grammarRoot.xml" />
     <Content Include="Grammar\grammarAlphanumeric.xml" />
+    <Content Include="Grammar\grammarEntities.xml" />
     <Content Include="Grammar\grammarReminder.xml" />
     <Content Include="Grammar\grammarTime.xml" />
     <Content Include="Grammar\shellCommands.xml" />

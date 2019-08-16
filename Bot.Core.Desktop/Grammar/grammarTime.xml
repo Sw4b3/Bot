@@ -8,7 +8,11 @@
 	<rule id="unit">
 		 <one-of>
 			<item>seconds</item>
+      <item>second</item>
 			<item>minutes</item>
+      <item>minute</item>
+      <item>hours</item>
+      <item>hour</item>
 		 </one-of>
 	 </rule>
 	<rule id="time">
