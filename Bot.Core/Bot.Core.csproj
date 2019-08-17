@@ -50,7 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\NaturalLanguageProcessor.cs" />
-    <Compile Include="Models\PartsOfSpeechDictionary.cs" />
+    <Compile Include="Dictionaries\ResponseDictionary.cs" />
+    <Compile Include="Dictionaries\PartsOfSpeechDictionary.cs" />
     <Compile Include="Handlers\ResponseHandler.cs" />
     <Compile Include="Handlers\PartsOfSpeechHandler.cs" />
     <Compile Include="Interfaces\ILanguageProcessor.cs" />

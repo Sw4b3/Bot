@@ -59,16 +59,16 @@ namespace Bot.Core
                     case "hello":
                     case "hey":
                     case "hi":
-                        response = responses.Greeting();
+                        response = responses.GetGreetingResponse();
                         break;
                     case "how are you":
-                        response = responses.Pleasantry();
+                        response = responses.GetPleasantryResponse();
                         break;
                     case "what is time":
-                        response = responses.GetTime() + _dateTimeService.GetTime();
+                        response = responses.GetTimeResponse(_dateTimeService.GetTime());
                         break;
                     case "what is date":
-                        response = _dateTimeService.GetDate();
+                        response = responses.GetDateResponse(_dateTimeService.GetDate());
                         break;
                     case "open file":
                         response = "Opening file";
