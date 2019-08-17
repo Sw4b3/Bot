@@ -18,6 +18,7 @@ namespace Bot.Core
         public SpeechController()
         {
             _speechSynthesizer.SelectVoiceByHints(VoiceGender.Female, VoiceAge.Adult);
+            _speechSynthesizer.Rate = 1;
         }
 
         public void Speak(string utterance)

@@ -9,6 +9,6 @@ namespace Bot.Core.Models
     public class Query
     {
         public string Intent { get; set; }
-        public string Entity { get; set; }
+        public IList<string> Entities { get; set; }
     }
 }

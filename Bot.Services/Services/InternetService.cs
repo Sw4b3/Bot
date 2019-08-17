@@ -16,6 +16,7 @@ namespace Bot.Services
             try
             {
                 var appliction = optionParameter != null ? optionParameter + "Search" : "googleSearch";
+                //var appliction = "googleSearch";
                 var path = ConfigurationManager.AppSettings[appliction];
                 Process.Start(path + searchTerm);
             }

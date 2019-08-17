@@ -3,10 +3,8 @@ using Bot.Core.Handlers;
 using Bot.Core.Interfaces;
 using Bot.Core.Models;
 using Bot.Services.Interfaces;
-using System;
-using System.Collections;
-using System.Diagnostics;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bot.Core
 {
@@ -19,7 +17,7 @@ namespace Bot.Core
         private IInternetService _internetService;
         private IWeatherService _weatherService;
         ResponseHandler responses = new ResponseHandler();
-        Stack lastUtterances = new Stack();
+        Stack<Query> lastUtterances = new Stack<Query>();
         private bool IS_LISTENING = true;
 
         public BotLogicController(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService, IDateTimeService dateTimeService,
@@ -174,6 +172,7 @@ namespace Bot.Core
                     //    //_recognitionController.loadGrammarAlphabet();
                     //    break;
                     #endregion
+                    case "none":
                     case null:
                         break;
                     default:
@@ -189,20 +188,21 @@ namespace Bot.Core
                         }
                         else if (query.Intent.Contains("open"))
                         {
-                            response = "Opening " + query.Entity;
-                            _applicationService.OpenApplication(query.Entity);
+                            response = "Opening " + query.Entities.FirstOrDefault();
+                            _applicationService.OpenApplication(query.Entities.FirstOrDefault());
                             break;
                         }
                         else if (query.Intent.Contains("close"))
                         {
-                            response = "Opening " + query.Entity;
-                            _applicationService.OpenApplication(query.Entity);
+                            response = "Opening " + query.Entities.FirstOrDefault();
+                            _applicationService.OpenApplication(query.Entities.FirstOrDefault());
                             break;
                         }
                         else if (query.Intent.Contains("search"))
                         {
-                            var searchTerm = query.Intent.Replace("search", "");
-                            _internetService.SearchInternet(searchTerm, query.Entity);
+                            var searchTerm = query.Entities.First().ToString();
+                            var optionalParamter = query.Entities.Count > 1 ? query.Entities.Last() : null;
+                            _internetService.SearchInternet(searchTerm, optionalParamter);
                             response = "Searching for " + searchTerm;
                             break;
                         }
@@ -214,7 +214,7 @@ namespace Bot.Core
                     _moduleController.SetText(response);
                     _moduleController.SetBotChatlog(response);
                 }
-                lastUtterances.Push(query.Intent);
+                lastUtterances.Push(query);
             }
         }
     }
