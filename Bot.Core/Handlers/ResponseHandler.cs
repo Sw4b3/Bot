@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bot.Services.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,8 @@ namespace Bot.Core.Handlers
             return null;
         }
 
-        public string GetPleasantryResponse() {
+        public string GetPleasantryResponse()
+        {
             reply = random.Next(0, 3);
             return ResponseDictionary.pleasantries[reply];
         }
@@ -52,6 +54,19 @@ namespace Bot.Core.Handlers
         {
             reply = random.Next(0, 2);
             return ResponseDictionary.time[reply] + date;
+        }
+
+        public string GetWeatherResponseResponse(WeatherReport weatherReport)
+        {
+            return "The weather is " + weatherReport.Weather.FirstOrDefault().Description +
+                  ", with a high of " + (int)weatherReport.Main.Temp_max +
+                  " and a low of " + (int)weatherReport.Main.Temp_min + " degrees celsius";
+        }
+
+        public string GetWeatherResponse(double temperature)
+        {
+            reply = random.Next(0, 4);
+            return ResponseDictionary.temperature[reply] + (int)temperature + " degrees celsius";
         }
     }
 }

@@ -50,6 +50,14 @@ namespace Bot.Core.Handlers
             {2, null},
         };
 
+        public static Dictionary<int, string> temperature = new Dictionary<int, string>()
+        {
+            {0,"The temperature is "},
+            {1, "It is "},
+            {2, "It is currently "},
+            {3, null},
+        };
+
     }
 }
 

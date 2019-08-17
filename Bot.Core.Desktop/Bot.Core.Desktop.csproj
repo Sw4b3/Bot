@@ -115,7 +115,7 @@
     <Content Include="Grammar\grammarEntities.xml" />
     <Content Include="Grammar\grammarReminder.xml" />
     <Content Include="Grammar\grammarTime.xml" />
-    <Content Include="Grammar\shellCommands.xml" />
+    <Content Include="Grammar\_shellCommands.xml" />
     <Content Include="Resources\ajax-loading-gif-transparent-background-8.gif" />
     <Content Include="Resources\ezgif.com-crop.gif" />
     <Content Include="Resources\ezgif.com-gif-maker %281%29.gif" />

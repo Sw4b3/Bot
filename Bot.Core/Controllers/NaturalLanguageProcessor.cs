@@ -173,7 +173,7 @@ namespace Bot.Core
             }
             catch (Exception ex)
             {
-                throw;
+                query.Intent="none";
             }
             return query;
         }

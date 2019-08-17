@@ -17,18 +17,20 @@ namespace Bot.Core
         private IApplicationService _applicationService;
         private IDateTimeService _dateTimeService;
         private IInternetService _internetService;
+        private IWeatherService _weatherService;
         ResponseHandler responses = new ResponseHandler();
         Stack lastUtterances = new Stack();
         private bool IS_LISTENING = true;
 
         public BotLogicController(ISpeechController speechController, IModuleController moduleController, IApplicationService applicationService, IDateTimeService dateTimeService,
-            IInternetService internetService)
+            IInternetService internetService, IWeatherService weatherService)
         {
             _moduleController = moduleController;
             _speechController = speechController;
             _applicationService = applicationService;
             _dateTimeService = dateTimeService;
             _internetService = internetService;
+            _weatherService = weatherService;
         }
 
         public bool IsListening(Query query)
@@ -85,16 +87,16 @@ namespace Bot.Core
                     case "stop timer":
                         _moduleController.StopCoutdown();
                         break;
+                    case "what is weather":
+                    case "tell weather":
+                    case "get weather":
+                        response = responses.GetWeatherResponseResponse(_weatherService.GetWeatherForcast());
+                        break;
+                    case "what is temperature":
+                    case "get temperature":
+                        response = responses.GetWeatherResponse(_weatherService.GetTemperature());
+                        break;
                     #region Deprecated
-                    //case "what is weather":
-                    //case "tell weather":
-                    //case "get weather":
-                    //    moduleController.getWeatherHandlerInstance().getAllWeather();
-                    //    break;
-                    //case "what is temperature":
-                    //case "get temperature":
-                    //    response = "The temperature is " + moduleController.getWeatherHandlerInstance().GetTemp();
-                    //    break;
                     //case "play audio":
                     //    response = "Playing audio";
                     //    break;
